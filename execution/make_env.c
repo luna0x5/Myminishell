@@ -6,13 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:24:43 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/18 19:01:01 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:35:56 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*ft_lstlast(t_env *lst)
+static t_env	*ft_lstlast(t_env *lst)
 {
 	t_env	*current;
 	t_env	*last;
@@ -56,7 +56,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	last -> next = new;
 }
 
-static char    *extract_env_key(char *data)
+char    *extract_env_key(char *data)
 {
     char    *key;
 

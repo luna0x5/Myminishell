@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/18 13:51:02 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:35:44 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ typedef struct s_minishell
 	t_parser	*ast;
 	t_token		*tokens;
 }				t_minishell;
+
+t_env	*ft_lstnew(void *content);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+char    *extract_env_key(char *data);
 
 char	*get_path(char *cmd);
 int		get_exit_status(int status);

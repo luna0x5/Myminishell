@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/18 19:24:17 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 19:04:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,37 @@ static void ft_exported_list(t_expander *exp)
     }
 }
 
+static void change_env_value(t_env *env, t_env *node)
+{
+    (void)env;
+    (void)node;
+}
+
+static int  process_arg(t_expander *exp, char *s)
+{
+    t_env   *node;
+
+    node = ft_lstnew(s);
+    if (!node)
+        return (0);
+    node->key = extract_env_key(s);
+    if (!node->key)
+        return (0);
+    node->value = get_value(s);
+    if (!node->value)
+        return (0);
+    if (node->value[0] == '\0')
+    {
+        free(node->value);
+        node->value = NULL;
+    }
+    if (!ft_getenv(node->key, exp))
+        ft_lstadd_back(&exp->env, node);
+    else
+        change_env_value(exp->env, node);
+    return (1);
+}
+
 int ft_export(t_minishell *mini)
 {
     int i;
@@ -38,6 +69,8 @@ int ft_export(t_minishell *mini)
         ft_exported_list(mini->exp);
     while (mini->args[i])
     {
+        if (!process_arg(mini->exp, mini->args[i]))
+            return (1);
         i++;
     }
     return (0);

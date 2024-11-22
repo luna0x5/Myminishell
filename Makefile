@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/17 15:40:24 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/22 18:39:37 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
 
 # Source files
 T_SOURCES = ./tokenizer/tokenizer.c \
@@ -75,7 +75,7 @@ INCLUDES = ./includes/tokenizer.h \
 
 # Compiler flags
 CFLAGS += -I/usr/include/readline  # Include the readline headers
-LDFLAGS += -L/usr/lib/x86_64-linux-gnu -lreadline -lncurses  # Link readline and ncurses libraries
+LDFLAGS += -lreadline -lncurses  # Link readline and ncurses libraries
 
 # Rule to create object files
 %.o: %.c

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:26:27 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/18 14:07:36 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:41:08 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int ft_env(t_minishell *mini)
     t_env   *current;
 
     if (!mini->exp->env)
-        return (0);        
+        return (0);
     if (mini->args[1])
     {
         write(2, "env: UNKNOWN OPTION\n", 20);

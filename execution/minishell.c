@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 15:27:28 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:37:17 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(void)
 			build_mini(mini, &line, tmp);
 		}
 		free_line(&line);
-		// system("leaks minishell");
+		system("leaks minishell");
 	}
 	cleanup_mini(mini);
 	rl_clear_history();

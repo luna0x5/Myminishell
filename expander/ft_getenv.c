@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 13:36:58 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/22 19:12:40 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,16 @@ int	count_equal_len(char *data)
 	i = 0;
 	if (!data || !data[i])
 		return (0);
-	while (data[i] != '=')
-		i++;
+	if (data [i] && data[i] == '+' && data[i + 1] && data[i + 1] == '=')
+	{
+		while (data[i] && data[i] != '+')
+			i++;
+	}
+	if (!i)
+	{
+		while (data[i] && data[i] != '=')
+			i++;
+	}
 	return (i);
 }
 
@@ -68,7 +76,7 @@ char	*ft_getenv(char *name, t_expander *exp)
 	{
 		if (!ft_strncmp(name, tmp->data, count_equal_len(tmp->data)))
 		{
-			return (get_value(tmp->data));
+			return (tmp->value);
 		}
 		tmp = tmp->next;
 	}
