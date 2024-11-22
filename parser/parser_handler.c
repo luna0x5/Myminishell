@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 05:50:28 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/11 19:13:44 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../includes/parser.h"
 
 static int	handle_arg(t_token **tokens, t_parser *cmd_node)
 {

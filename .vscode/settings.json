@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "history.h": "c",
+        "minishell.h": "c"
+    },
+    "42header.email": "hmoukit@student.42.fr",
+    "42header.username": "hmoukit"
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:24:43 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/11 18:45:59 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/18 19:01:01 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_env	*ft_lstnew(void *content)
 	if (list == NULL)
 		return (NULL);
 	list -> data = ft_strdup(content);
-	list->has_value = 1;
 	list -> next = NULL;
 	return (list);
 }
@@ -57,6 +56,16 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	last -> next = new;
 }
 
+static char    *extract_env_key(char *data)
+{
+    char    *key;
+
+    key = ft_substr(data, 0, count_equal_len(data));
+    if (!key)
+        return (NULL);
+    return (key);
+}
+
 t_env	*make_env(void)
 {
 	extern char	**environ;
@@ -69,6 +78,8 @@ t_env	*make_env(void)
 	while (environ[i])
 	{
 		new_node = ft_lstnew(environ[i]);
+		new_node->key = extract_env_key(new_node->data);
+		new_node->value = get_value(new_node->data);
 		ft_lstadd_back(&env, new_node);
 		i++;
 	}

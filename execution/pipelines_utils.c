@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipelines_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/11 18:46:29 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	setup_pipe(int pfds[2])
 	return (0);
 }
 
-void	wait_for_children(int pid_left, int pid_right, unsigned int *exit)
+void	wait_for_children(int pid_left, int pid_right, unsigned char *exit)
 {
 	int	status;
 

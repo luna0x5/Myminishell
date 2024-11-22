@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+         #
+#    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/13 11:52:04 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/17 15:40:24 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
-CFLAGS += -I/Users/hmoukit/.brew/opt/readline/include
-LDFLAGS += -L/Users/hmoukit/.brew/opt/readline/lib -lreadline -lncurses
+FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+
+# Source files
 T_SOURCES = ./tokenizer/tokenizer.c \
             ./tokenizer/tokenizer_handler.c \
             ./tokenizer/tokenizer_utils.c \
@@ -52,34 +52,56 @@ EXEC_SOURCES = ./execution/find_path.c \
 			   ./execution/simple_cmd_utils.c \
 			   ./execution/cleanup.c
 
+B_SOURCES = ./builtins/execute_builtins.c \
+			./builtins/ft_echo.c \
+			./builtins/ft_exit.c \
+			./builtins/ft_env.c \
+			./builtins/ft_pwd.c \
+			./builtins/ft_export.c \
+			./builtins/check_id.c
+
+# Object files
 T_OBJECTS = $(T_SOURCES:.c=.o)
 P_OBJECTS = $(P_SOURCES:.c=.o)
 EXP_OBJECTS = $(EXP_SOURCES:.c=.o)
 EXEC_OBJECTS = $(EXEC_SOURCES:.c=.o)
+B_OBJECTS = $(B_SOURCES:.c=.o)
 
+# Include headers
 INCLUDES = ./includes/tokenizer.h \
 		   ./includes/parser.h \
 	       ./includes/expander.h \
 		   ./includes/minishell.h 
 
-%.o: %.c
-	$(CC) $(FLAGS) $(CFLAGS) -I./includes -c -o $@ $<
+# Compiler flags
+CFLAGS += -I/usr/include/readline  # Include the readline headers
+LDFLAGS += -L/usr/lib/x86_64-linux-gnu -lreadline -lncurses  # Link readline and ncurses libraries
 
+# Rule to create object files
+%.o: %.c
+	$(CC) $(FLAGS) $(CFLAGS) -c -o $@ $<
+
+# Target to build the final executable
 all: libft $(NAME)
 
-$(NAME): $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(INCLUDES)
-	$(CC) $(FLAGS) $(CFLAGS) $(LDFLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) ./libft/libft.a
+$(NAME): $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(INCLUDES)
+	$(CC) $(FLAGS) $(CFLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) ./libft/libft.a $(LDFLAGS)
+
+# libft target
 libft:
 	make -C ./libft
 
+# Clean object files
 clean:
-	$(RM) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS)
+	$(RM) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS)
 	make -C ./libft clean
 
+# Full clean
 fclean: clean
 	$(RM) $(NAME)
 	make -C ./libft fclean
 
+# Rebuild from scratch
 re: fclean all
 
-.PHONY: libft clean fclean re
+.PHONY: libft clean

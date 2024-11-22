@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/13 11:58:00 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/18 13:51:02 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 typedef struct s_minishell
 {
 	int			s_stdin;
-	t_env		*env;
-	char		*cmd;
+	char		*pwd;
 	char		**args;
 	t_expander	*exp;
 	t_parser	*ast;
@@ -45,7 +44,14 @@ char	**make_env_2d(t_env *env);
 void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
 void	ft_pipelines(t_minishell *mini, t_parser *ast);
 void	handle_exec_redirections(t_minishell *mini, t_parser *node);
-int		handle_builtin(t_minishell *node);
+int		execute_builtins(t_minishell *mini);
+
+int		ft_env(t_minishell *mini);
+int		ft_echo(t_minishell *mini);
+int		ft_exit(t_minishell *mini);
+int 	ft_pwd(t_minishell *mini);
+int 	ft_export(t_minishell *mini);
+int		is_valid_id(char *key);
 
 void	executer(t_minishell *mini);
 
@@ -63,11 +69,8 @@ int		open_in_files(t_minishell *mini, t_parser *node);
 int		open_out_files(t_minishell *mini, t_parser *node);
 void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
 
-
 void	multiple_in_redirections(t_minishell *mini, t_parser *node);
 void	multiple_out_redirections(t_minishell *mini, t_parser *node);
-
-void	free_node(t_minishell *mini, t_env *env);
 
 void	ft_sigint_handler(int num);
 void	ft_eof_handler(void);
@@ -75,10 +78,9 @@ void	ft_sigquit_handler(int num);
 
 void	handle_redirections_in_process(t_minishell *mini, t_parser *node);
 int		setup_pipe(int pfds[2]);
-void	wait_for_children(int pid_left, int pid_right, unsigned int *exit);
+void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
 void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
 
-int	handle_builtin(t_minishell *node);
 int	fork_and_exec(char *path, char **args, char **env_2d);
 int	exec_simple_cmd(t_minishell *node, char **env_2d);
 void	exec_no_fork(t_minishell *node, char **env_2d, char *path);

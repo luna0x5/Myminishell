@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 19:03:01 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/13 11:58:08 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 13:37:36 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void	free_tree(t_parser *ast)
 		current = current->next;
 		free(tmp->data);
 		tmp->data = NULL;
+		free(tmp->key);
+		tmp->key = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
 		free(tmp);
 		tmp = NULL;
 	}

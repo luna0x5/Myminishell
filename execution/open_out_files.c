@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   open_out_files.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:02:33 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/10/23 02:10:20 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	open_out(t_parser *n)
 {

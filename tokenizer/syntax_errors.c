@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 04:37:15 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/07 04:46:23 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/18 00:10:20 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "../includes/tokenizer.h"
 
 int	check_redir(t_token_type type)
 {

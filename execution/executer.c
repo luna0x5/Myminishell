@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:29:02 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/12 02:00:03 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	executer(t_minishell *mini)
 		return ;
 	}
 	else if (mini->ast->id->id_type == CMD)
-	{
 		handle_exec_simple_cmd(mini, mini->ast, 0);
-	}
 	free_args(mini->args);
 }

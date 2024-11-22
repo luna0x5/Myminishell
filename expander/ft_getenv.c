@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/10 01:03:29 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 13:36:58 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../includes/expander.h"
 
-static int	count_equal_len(char *data)
+int	count_equal_len(char *data)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ static int	count_equal_len(char *data)
 	return (i);
 }
 
-static int	count_value_len(char *data)
+int	count_value_len(char *data)
 {
 	int	i;
 	int	j;
@@ -44,7 +44,7 @@ static int	count_value_len(char *data)
 	return (j);
 }
 
-static char	*get_value(char *data)
+char	*get_value(char *data)
 {
 	char	*value;
 	int		equal_len;

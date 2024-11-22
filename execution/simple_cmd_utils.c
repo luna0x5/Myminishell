@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/13 11:53:41 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 11:05:18 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 // int	handle_builtin(t_minishell *node)
 // {
@@ -54,9 +54,7 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 	char	*path;
 	int		status;
 
-	path = get_path(node->cmd);
-	free(node->cmd);
-	node->cmd = NULL;
+	path = get_path(node->args[0]);
 	if (!path)
 	{
 		write(2, "path not found\n", 16);
@@ -70,9 +68,9 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 
 void	exec_no_fork(t_minishell *node, char **env_2d, char *path)
 {
-	// if (handle_builtin(node) == -1)
-	// {
-		path = get_path(node->cmd);
+	if (!execute_builtins(node))
+	{
+		path = get_path(node->args[0]);
 		if (execve(path, node->args, env_2d) == -1)
 		{
 			free_args(env_2d);
@@ -80,5 +78,5 @@ void	exec_no_fork(t_minishell *node, char **env_2d, char *path)
 			free(path);
 			exit(1);
 		}
-	// }
+	}
 }

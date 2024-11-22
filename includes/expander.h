@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/10 01:12:35 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 13:38:13 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 
 typedef struct s_env
 {
+	char			*key;
+	char			*value;
 	char			*data;
-	int				has_value;
 	struct s_env	*next;
 }					t_env;
 
 typedef struct s_expander
 {
 	t_env			*env;
-	unsigned int	exit_s;
+	unsigned char	exit_s;
 }					t_expander;
 
 typedef struct s_quote
@@ -48,6 +49,10 @@ char	*handle_variable_expansion(char *arg, int *i, t_expander *exp);
 void	process_string(t_parser *ast, t_expander *exp);
 
 char	*ft_getenv(char *name, t_expander *exp);
+int		count_equal_len(char *data);
+int		count_value_len(char *data);
+char	*get_value(char *data);
+
 void	expand_ast(t_parser *ast, t_expander *exp);
 
 void	free_args(char **args);

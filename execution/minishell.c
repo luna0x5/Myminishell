@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/13 12:17:49 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/17 15:27:28 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	mini_init(t_minishell **mini, char **line)
 	*mini = malloc(sizeof(t_minishell));
 	(*mini)->exp = malloc(sizeof(t_expander));
 	(*mini)->exp->env = make_env();
+	(*mini)->pwd = ft_getenv("PWD", (*mini)->exp);
 	(*mini)->exp->exit_s = 0;
 }
 
@@ -84,6 +85,7 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 		return (0);
 	}
 	expand_ast(mini->ast, mini->exp);
+	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
 	free_token_tree(mini, line);
 	return (1);
@@ -96,7 +98,6 @@ int	main(void)
 	t_minishell	*mini;
 
 	mini = NULL;
-	signals_init();
 	mini_init(&mini, &line);
 	while(1)
 	{
@@ -108,10 +109,9 @@ int	main(void)
 		{
 			add_history(tmp);
 			build_mini(mini, &line, tmp);
-			// print_ast(mini->ast, 0, "ROOT");
 		}
 		free_line(&line);
-		system("leaks minishell");
+		// system("leaks minishell");
 	}
 	cleanup_mini(mini);
 	rl_clear_history();
