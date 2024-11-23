@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/22 18:39:37 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/23 14:50:25 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
 
 # Source files
 T_SOURCES = ./tokenizer/tokenizer.c \
@@ -56,9 +56,7 @@ B_SOURCES = ./builtins/execute_builtins.c \
 			./builtins/ft_echo.c \
 			./builtins/ft_exit.c \
 			./builtins/ft_env.c \
-			./builtins/ft_pwd.c \
-			./builtins/ft_export.c \
-			./builtins/check_id.c
+			./builtins/ft_pwd.c
 
 # Object files
 T_OBJECTS = $(T_SOURCES:.c=.o)

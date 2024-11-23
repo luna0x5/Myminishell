@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:06:27 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/23 14:46:19 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	make_args(t_minishell *node, t_parser *ast)
 			return (0);
 		}
 		current = current->right;
-		(i)++;
+		i++;
 	}
 	node->args[i] = NULL;
 	return (1);

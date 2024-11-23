@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 19:03:01 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 13:37:36 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/23 09:52:38 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_tree(t_parser *ast)
 	ast->right = NULL;
 }
 
- void	free_env(t_env **env)
+void	free_env(t_env **env)
 {
 	t_env	*tmp;
 	t_env	*current;
@@ -69,4 +69,16 @@ void	cleanup_mini(t_minishell *mini)
 	mini->exp = NULL;
 	free(mini);
 	mini = NULL;
+}
+
+void	free_env_node(t_env *env)
+{
+	free(env->data);
+	env->data = NULL;
+	free(env->key);
+	env->key = NULL;
+	free(env->value);
+	env->value = NULL;
+	free(env);
+	env = NULL;
 }

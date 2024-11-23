@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/22 19:12:40 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/23 09:45:06 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ char	*ft_getenv(char *name, t_expander *exp)
 	while (tmp)
 	{
 		if (!ft_strncmp(name, tmp->data, count_equal_len(tmp->data)))
-		{
 			return (tmp->value);
-		}
 		tmp = tmp->next;
 	}
 	return (NULL);

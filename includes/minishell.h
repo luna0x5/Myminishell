@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/22 18:35:44 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/23 14:49:04 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		ft_exit(t_minishell *mini);
 int 	ft_pwd(t_minishell *mini);
 int 	ft_export(t_minishell *mini);
 int		is_valid_id(char *key);
+int		ft_cd(t_minishell *mini);
 
 void	executer(t_minishell *mini);
 
@@ -93,5 +94,6 @@ void	free_tree(t_parser *ast);
 void	free_env(t_env **env);
 void	cleanup_mini(t_minishell *mini);
 void	free_line(char **line);
+void	free_env_node(t_env *env);
 
 #endif
