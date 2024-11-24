@@ -12,26 +12,26 @@
 
 #include "../includes/minishell.h"
 
-int ft_env(t_minishell *mini)
+int	ft_env(t_minishell *mini)
 {
-    t_env   *current;
+	t_env	*current;
 
-    if (!mini->exp->env)
-        return (0);
-    if (mini->args[1])
-    {
-        write(2, "env: UNKNOWN OPTION\n", 20);
-        return (127);
-    }
-    current = mini->exp->env;
-    while (current)
-    {
-        if (current->value)
-        {
-            ft_putstr_fd(current->data, 1);
-            write(1, "\n", 1);
-        }
-        current = current->next;
-    }
-    return (0);
+	if (!mini->exp->env)
+		return (0);
+	if (mini->args[1])
+	{
+		write(2, "env: UNKNOWN OPTION\n", 20);
+		return (127);
+	}
+	current = mini->exp->env;
+	while (current)
+	{
+		if (ft_strchr(current->data, '='))
+		{
+			ft_putstr_fd(current->data, 1);
+			write(1, "\n", 1);
+		}
+		current = current->next;
+	}
+	return (0);
 }

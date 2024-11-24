@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-int ft_pwd(t_minishell *mini)
+int	ft_pwd(t_minishell *mini)
 {
-    ft_putstr_fd(mini->pwd, 1);
-    write(1, "\n", 1);
-    return (0);
+	ft_putstr_fd(mini->pwd, 1);
+	write(1, "\n", 1);
+	return (0);
 }

@@ -22,42 +22,15 @@ static void ft_exported_list(t_expander *exp)
         if (ft_strcmp("_", current->key))
         {
             write(1, "declare -x ", 11);
-            ft_putstr_fd(current->data, 1);
+            ft_putstr_fd(current->key, 1);
+			if (ft_strchr(current->data, '='))
+			{		
+				write(1, "=", 1);
+				write(1, "\"", 1);
+				ft_putstr_fd(current->value, 1);
+				write(1, "\"", 1);
+			}
             write(1, "\n", 1);
-        }
-        current = current->next;
-    }
-}
-
-// static void change_env_value(t_env **env, t_env *node)
-// {
-//     t_env   *current;
-
-//     current = *env;
-//     while (current && current->next && ft_strcmp(current->next->key, node->key))
-//         current = current->next;
-//     current->value = ft_strdup(node->value);
-// }
-
-static void change_env_value(t_env **env, t_env *node)
-{
-    t_env *current;
-
-    current = *env;
-    while (current)
-    {
-        if (current->key && strcmp(current->key, node->key) == 0)
-        {
-            free(current->value);
-            current->value = strdup(node->value);
-            printf("current->value ====== {%s}\n", current->value);
-            current = *env;
-            while (current)
-            {
-                printf("{%s}\n", current->data);
-                current = current->next;
-            }
-            return ;
         }
         current = current->next;
     }
@@ -83,8 +56,6 @@ static int  process_arg(t_expander *exp, char *s)
     }
     if (!ft_getenv(node->key, exp))
         ft_lstadd_back(&exp->env, node);
-    else
-        change_env_value(&exp->env, node);
     return (1);
 }
 

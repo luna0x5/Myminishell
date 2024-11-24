@@ -65,12 +65,9 @@ void	mini_init(t_minishell **mini, char **line)
 	*mini = malloc(sizeof(t_minishell));
 	(*mini)->exp = malloc(sizeof(t_expander));
 	(*mini)->exp->env = make_env();
-	(*mini)->pwd = ft_getenv("PWD", (*mini)->exp);
-	printf("mini->pwd == {%s}\n", (*mini)->pwd);
-	(*mini)->oldpwd = ft_getenv("OLDPWD", (*mini)->exp);
-	printf("mini->oldpwd == {%s}\n", (*mini)->oldpwd);
-	(*mini)->home = ft_getenv("HOME", (*mini)->exp);
-	printf("mini->home == {%s}\n", (*mini)->home);
+	(*mini)->pwd = ft_strdup(ft_getenv("PWD", (*mini)->exp));
+	(*mini)->oldpwd = ft_strdup(ft_getenv("OLDPWD", (*mini)->exp));
+	(*mini)->home = ft_strdup(ft_getenv("HOME", (*mini)->exp));
 	(*mini)->exp->exit_s = 0;
 }
 
@@ -92,8 +89,6 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 	expand_ast(mini->ast, mini->exp);
 	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
-		printf("mini->pwd == {%s}\n", mini->pwd);
-		printf("mini->oldpwd == {%s}\n", mini->oldpwd);
 	free_token_tree(mini, line);
 	return (1);
 }

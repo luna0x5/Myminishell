@@ -57,7 +57,9 @@ B_SOURCES = ./builtins/execute_builtins.c \
 			./builtins/ft_exit.c \
 			./builtins/ft_env.c \
 			./builtins/ft_pwd.c \
-			./builtins/ft_cd.c
+			./builtins/ft_cd.c \
+			./builtins/builtins_utils.c \
+			./builtins/ft_export.c
 
 # Object files
 T_OBJECTS = $(T_SOURCES:.c=.o)

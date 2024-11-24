@@ -59,6 +59,7 @@ int 	ft_pwd(t_minishell *mini);
 int 	ft_export(t_minishell *mini);
 int		is_valid_id(char *key);
 int		ft_cd(t_minishell *mini);
+void	update_env(t_minishell *mini, const char *key, const char *new_value);
 
 void	executer(t_minishell *mini);
 

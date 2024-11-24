@@ -67,6 +67,12 @@ void	cleanup_mini(t_minishell *mini)
 	mini->exp->env = NULL;
 	free(mini->exp);
 	mini->exp = NULL;
+	free(mini->pwd);
+	mini->pwd = NULL;
+	free(mini->oldpwd);
+	mini->oldpwd = NULL;
+	free(mini->home);
+	mini->home = NULL;
 	free(mini);
 	mini = NULL;
 }

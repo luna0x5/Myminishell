@@ -12,19 +12,44 @@
 
 #include "../includes/minishell.h"
 
-int is_valid_id(char *key)
+void	update_env(t_minishell *mini, const char *key, const char *new_value)
 {
-    int i;
+    t_env		*node;
+	char		*tmp;
 
-    i = 0;
-    if (!ft_isalpha(key[i]) || key[i] != '_')
-        return (0);
-    i++;
-    while (key[i])
+    node = mini->exp->env;
+    while (node)
     {
-        if (!ft_isalnum(key[i]) || key[i] != '_')
-            return (0);
-        i++;
+        if (!strcmp(node->key, key))
+        {
+            if (node->value)
+                free(node->value);
+            node->value = ft_strdup(new_value);
+            if (node->data)
+                free(node->data);
+            tmp = ft_strjoin(key, "=");
+            node->data = ft_strjoin(tmp, new_value);
+			free(tmp);
+			tmp = NULL;
+            break ;
+        }
+        node = node->next;
     }
-    return (1);
+}
+
+int	is_valid_id(char *key)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(key[i]) || key[i] != '_')
+		return (0);
+	i++;
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) || key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

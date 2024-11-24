@@ -19,15 +19,22 @@ int	count_equal_len(char *data)
 	i = 0;
 	if (!data || !data[i])
 		return (0);
-	if (data [i] && data[i] == '+' && data[i + 1] && data[i + 1] == '=')
+	while (data[i])
 	{
-		while (data[i] && data[i] != '+')
+		if (data [i] && data[i] == '+' && data[i + 1] && data[i + 1] == '=')
+		{
+			while (data[i] && data[i] != '+')
+				i++;
 			i++;
-	}
-	if (!i)
-	{
-		while (data[i] && data[i] != '=')
-			i++;
+			return (i);
+		}
+		if (data[i] == '=')
+		{
+			while (data[i] && data[i] != '=')
+				i++;
+			return (i);
+		}
+		i++;
 	}
 	return (i);
 }
@@ -40,9 +47,10 @@ int	count_value_len(char *data)
 	i = 0;
 	if (!data || !data[i])
 		return (0);
-	while (data[i] != '=')
+	while (data[i] && data[i] != '=')
 		i++;
-	i++;
+	if (data[i])	
+		i++;
 	j = 0;
 	while (data[i])
 	{
@@ -59,7 +67,7 @@ char	*get_value(char *data)
 	int		value_len;
 
 	equal_len = count_equal_len(data);
-	equal_len++;
+	// equal_len++;
 	value_len = count_value_len(data);
 	value = ft_substr(data, equal_len, value_len);
 	return (value);
