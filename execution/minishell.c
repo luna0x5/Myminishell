@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/23 14:48:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/24 09:37:21 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void	mini_init(t_minishell **mini, char **line)
 	(*mini)->exp = malloc(sizeof(t_expander));
 	(*mini)->exp->env = make_env();
 	(*mini)->pwd = ft_getenv("PWD", (*mini)->exp);
+	printf("mini->pwd == {%s}\n", (*mini)->pwd);
+	(*mini)->oldpwd = ft_getenv("OLDPWD", (*mini)->exp);
+	printf("mini->oldpwd == {%s}\n", (*mini)->oldpwd);
+	(*mini)->home = ft_getenv("HOME", (*mini)->exp);
+	printf("mini->home == {%s}\n", (*mini)->home);
 	(*mini)->exp->exit_s = 0;
 }
 
@@ -87,6 +92,8 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 	expand_ast(mini->ast, mini->exp);
 	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
+		printf("mini->pwd == {%s}\n", mini->pwd);
+		printf("mini->oldpwd == {%s}\n", mini->oldpwd);
 	free_token_tree(mini, line);
 	return (1);
 }
@@ -114,6 +121,6 @@ int	main(void)
 		// system("leaks minishell");
 	}
 	cleanup_mini(mini);
-	rl_clear_history();
+	// rl_clear_history();
 	return (0);
 }

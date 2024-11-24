@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/23 14:50:25 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/24 09:03:11 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,14 @@ FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
 
 # Source files
 T_SOURCES = ./tokenizer/tokenizer.c \
-            ./tokenizer/tokenizer_handler.c \
-            ./tokenizer/tokenizer_utils.c \
+			./tokenizer/tokenizer_handler.c \
+			./tokenizer/tokenizer_utils.c \
 			./tokenizer/t_token_utils.c \
 			./tokenizer/process_tokens.c \
 			./tokenizer/syntax_errors.c
 
 P_SOURCES = ./parser/parser.c \
-            ./parser/parser_utils.c \
+			./parser/parser_utils.c \
 			./parser/parser_handler.c
 
 EXP_SOURCES = ./expander/expander_handler.c \
@@ -56,7 +56,8 @@ B_SOURCES = ./builtins/execute_builtins.c \
 			./builtins/ft_echo.c \
 			./builtins/ft_exit.c \
 			./builtins/ft_env.c \
-			./builtins/ft_pwd.c
+			./builtins/ft_pwd.c \
+			./builtins/ft_cd.c
 
 # Object files
 T_OBJECTS = $(T_SOURCES:.c=.o)

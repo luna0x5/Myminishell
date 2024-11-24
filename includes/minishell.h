@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/23 14:49:04 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/24 08:57:09 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_minishell
 {
 	int			s_stdin;
 	char		*pwd;
+	char		*oldpwd;
+	char		*home;
 	char		**args;
 	t_expander	*exp;
 	t_parser	*ast;
