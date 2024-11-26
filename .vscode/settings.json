@@ -23,7 +23,8 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"libft.h": "c",
-		"fcntl.h": "c"
+		"fcntl.h": "c",
+		"readline.h": "c"
 	},
     "42header.email": "hmoukit@student.42.fr",
     "42header.username": "hmoukit"

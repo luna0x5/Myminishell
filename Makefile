@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/27 00:03:13 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/27 00:49:19 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,18 +75,19 @@ INCLUDES = ./includes/tokenizer.h \
 	       ./includes/expander.h \
 		   ./includes/minishell.h 
 
-# Compiler flags
-CFLAGS =  -lreadline -L /Users/hmoukit/homebrew/opt/readline/lib -I /Users/hmoukit/homebrew/opt/readline/include
+# Compiler flags 
+CFLAGS = -I /Users/hmoukit/homebrew/opt/readline/include -lreadline -L /Users/hmoukit/homebrew/opt/readline/lib
+# CFLAGS = -I /Users/hmoukit/homebrew/opt/readline/include -L /Users/hmoukit/homebrew/opt/readline/lib
 
 # Rule to create object files
 %.o: %.c
-	$(CC) $(FLAGS) $(CFLAGS) -c -o $@ $<
+	$(CC) $(FLAGS) -I /Users/hmoukit/homebrew/opt/readline/include -c -o $@ $<
 
 # Target to build the final executable
 all: libft $(NAME)
 
 $(NAME): $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(INCLUDES)
-	$(CC) $(FLAGS) $(CFLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) ./libft/libft.a $(LDFLAGS)
+	$(CC) $(FLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(CFLAGS)  ./libft/libft.a
 
 # libft target
 libft:
