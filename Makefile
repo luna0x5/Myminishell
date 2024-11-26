@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/24 09:03:11 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/27 00:03:13 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ B_SOURCES = ./builtins/execute_builtins.c \
 			./builtins/ft_pwd.c \
 			./builtins/ft_cd.c \
 			./builtins/builtins_utils.c \
-			./builtins/ft_export.c
+			./builtins/ft_export.c \
+			./builtins/ft_unset.c
 
 # Object files
 T_OBJECTS = $(T_SOURCES:.c=.o)
@@ -75,8 +76,7 @@ INCLUDES = ./includes/tokenizer.h \
 		   ./includes/minishell.h 
 
 # Compiler flags
-CFLAGS += -I/usr/include/readline  # Include the readline headers
-LDFLAGS += -lreadline -lncurses  # Link readline and ncurses libraries
+CFLAGS =  -lreadline -L /Users/hmoukit/homebrew/opt/readline/lib -I /Users/hmoukit/homebrew/opt/readline/include
 
 # Rule to create object files
 %.o: %.c

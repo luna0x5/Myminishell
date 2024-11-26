@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/12 01:12:43 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:38:48 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	create_pipe(int pipefd[2])
 
 static int	write_to_pipe(int pipefd[2], const char *line)
 {
-	if (write(pipefd[1], line, strlen(line)) < 0)
+	if (write(pipefd[1], line, ft_strlen(line)) < 0)
 	{
 		perror("Error writing to pipe");
 		return (0);

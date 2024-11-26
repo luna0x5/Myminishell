@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 00:03:23 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/24 08:58:56 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:03:16 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ int	execute_builtins(t_minishell *mini)
 		return ((mini->exp->exit_s = ft_cd(mini)), 1);
     if (!ft_strcmp("export", mini->args[0]))
         return ((mini->exp->exit_s = ft_export(mini)), 1);
+	if (!ft_strcmp("unset", mini->args[0]))
+        return ((mini->exp->exit_s = ft_unset(mini)), 1);
 	return (0);
 }

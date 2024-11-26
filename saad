@@ -1,0 +1,574 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    t9abi                                              :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sfellahi <sfellahi@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/03 11:26:08 by sfellahi          #+#    #+#              #
+#    Updated: 2024/10/09 11:39:23 by sfellahi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
+$echo bonjour > test\ 1 ✅
+
+echo 2 >> out1 > out2  ✅
+echo 2 > out1 >> out2   ✅
+./minishell < /dev/urandom✅
+
+ echo bonjour ; | ✅
+ echo bonjour | | ✅
+ |
+ cd $HOME/Documents  ✅
+ echo "\s" & echo "\s" ✅
+ echo >   ✅
+ echo -n -n -nnnn -nnnnm ✅
+ cat /dev/random | head -n 1 | cat -e   ✅
+ unset var1 # with undefined var1 ✅
+ export "" et unset ""   ✅
+ echo test > file test1 ✅
+ $ ✅
+ not_cmd bonjour > salut  ✅ 
+ env puis export puis env # vars aren't sorted ✅
+ cat Makefile | grep pr | head -n 5 | cd test (mybin) # check status code ✅
+ cat Makefile | grep pr | head -n 5 | cat test (bin) # check status code ✅
+ cat Makefile | grep pr | head -n 5 | hello (NA) # check status code ✅
+ echo bonjour >>> test ✅
+ echo bonjour > > out ✅
+ cat < test # with non-existent test   ✅
+ export var; export var=test   ✅
+ echo bonjour > $test # with test not defined  ✅
+ file_name_in_current_dir
+ cd ../../../../../.. ; pwd ✅
+ ctrl-C . 130 sur bin(ex : sleep 10)&line vide
+ ctrl-\ .131 sur bin
+ echo "bip | bip" ✅
+ echo "bip | bip ; coyotte > < "  ✅
+ cat | cat | cat | ls # check outputs order ✅
+cat | cat | caaat | ls  ///works at 11.34  ✅
+  $bla # with bla not defined ✅
+ export var ="cat Makefile | grep >" ✅
+ export "test=ici"=coucou  ✅
+ c$var Makefile # with var=at   ✅
+ $LESS$VAR ✅
+ /bin/echo bonjour ✅
+ not_cmd ✅
+ sleep 5 | exit  ✅
+ "exit retour a la ligne"
+ minishell # binary not in path without "./" before ✅
+ cat diufosgid # check exit code
+ exit # should return the last exit code value
+ exit -10
+ exit +10
+ ;
+ echo "$HOME" ✅
+ echo '$HOME' ✅
+ export ; env ✅
+ echo $HOME ✅
+ > log echo coucou  ✅
+ echo hudifg d | | hugdfihd ✅
+ echo ✅
+ echo simple ✅
+ echo -n simple ✅
+ echo '' ✅
+ echo "" ✅
+ echo "\" ✅
+ echo "\n \n \n" ✅
+ echo "\n \n \\n"    ✅
+ echo ;;  ✅
+ echo hi";" hihi ✅
+ echo hi " ; " hihi ✅
+ cd ✅
+ cd . ✅
+ cd ~ ✅
+ cd / ✅
+ cd no_file (not work)
+ cd a b c d ✅
+ pwd a ✅
+ pwd a b c d ✅
+ export LOL=lala ROR=rara ✅
+ unset LOL ROR  ✅
+ export "HI= hi"  ✅
+ export "HI =hi" ✅
+ /bin/ls ✅
+ # write something the press ctrl+c ✅
+ # write something then press ctrl+d ✅
+ # write something then press ctrl+\ ✅
+ echo $?
+ l^Ds  ✅
+ echo | ✅
+ | echo ✅
+ sort | ls # check output order ✅ 
+ cat < > ✅ 
+ cat < < ✅ 
+ cat > > ✅ 
+ > a ls > b < Makefile ✅
+ echo > a Hello World!  ✅
+ > a echo Hello World! ✅
+ cat < Makefile | grep gcc > output  ✅
+ exit 0 | exit 1
+ exit 1 | exit 0
+
+ls > file > file1 ✅
+ls > f7 < nofile > f3 > f4 ✅
+
+echo bonjour > $tes    
+
+////////////////////////////////
+export SHLVL=999 ✅ 
+minishell  ✅ 
+export == it should be empty like that SHLVL="" ✅ 
+and in negative number should be 0 and then start from 0  ✅ 
+
+Mini$hell$: cd ..
+cd: error retrieving current directory: No such file or directory
+Mini$hell$: env | grep PWD
+PWD=/Users/sfellahi/Desktop/DEATH/1/2/3/4
+OLDPWD=/Users/sfellahi/Desktop/DEATH /* add .. at the end of PWD when you inside deleted directory */
+ echo -n -n -n -n ✅
+ echo -nnnnnn n- hello ✅ 
+ ls | > filenotfound | wc -l   ✅ it should not printf command not found just 0
+ ls | << filenotfound | wc -l  ✅
+ ls | $notvar  | wc -l   ✅ it should not printf command not found just 0
+
+
+//////////////////////////
+Mini$hell$: touch ggg ✅
+Mini$hell$: ./ggg ✅
+access: Permission denied ✅
+Mini$hell$: chmod +x ggg ✅
+Mini$hell$: ggg ✅
+command not found: Bad address ✅
+Mini$hell$: ./ggg ✅
+command not found: Exec format error  ✅
+
+
+
+declare -x _="./minishell" dont print this freacking variable in export nigga
+
+
+Mini$hell$: echo $$$$USER ✅ 
+USER ✅ 
+
+Mini$hell$: export tt="ls -al" ✅ 
+Mini$hell$: $tt ✅ 
+
+declare -x _="./minishell"
+declare -x __CF_USER_TEXT_ENCODING="0x1940A:0x0:0x0"
+declare -x tt="ls -al"
+declare -x ttt
+Mini$hell$: export ttt=$ttt
+
+
+Mini$hell$: unset  SECURITYSESSIONID USER MallocNanoZone COMMAND_MODE PATH HOME SHELL LaunchInstanceID __CF_USER_TEXT_ENCODING XPC_SERVICE_NAME SSH_AUTH_SOCK XPC_FLAGS LOGNAME TMPDIR ORIGINAL_XDG_CURRENT_DESKTOP SHLVL PWD OLDPWD ZSH PAGER LESS LSCOLORS LS_COLORS HOMEBREW_CACHE HOMEBREW_TEMP TERM_PROGRAM TERM_PROGRAM_VERSION LANG COLORTERM GIT_ASKPASS VSCODE_GIT_ASKPASS_NODE VSCODE_GIT_ASKPASS_EXTRA_ARGS VSCODE_GIT_ASKPASS_MAIN VSCODE_GIT_IPC_HANDLE VSCODE_INJECTION ZDOTDIR USER_ZDOTDIR TERM _ ✅
+Mini$hell$: export✅
+
+Mini$hell$: echo $$$"CUSER"✅
+$"CUSER"✅
+
+Mini$hell$: exit "88 55 98" ✅
+
+Mini$hell$: mkdir ttt ✅
+Mini$hell$: ttt/ ✅
+is a directory: ttt/ ✅
+
+
+Mini$hell$: cd .. ❌
+Mini$hell$: env | grep PWD ❌
+// pwd and oldpwd should not be added ✅
+
+
+
+//////////////////////////////////////////////////////
+Mini$hell$: cat << . << .. << ... ✅
+
+
+Mini$hell$: export a=" " ❌
+Mini$hell$: $a ❌
+command not found: Bad address ✅ 
+
+
+Mini$hell$: export a="ls -la < Makefile" ✅ 
+Mini$hell$: $a ✅ 
+ls: <: No such file or directory ✅
+-rw-r--r--  1 sfellahi  candidate  2584 Sep  3 14:04 Makefile ✅
+
+
+
+ls > saad <<< ls   ASK ILYASSSSSSSSSS
+
+bash-3.2$ ./minishell_saad ✅ 
+bash: ./minishell_saad: is a directory -> use stat function to check if it a directory ✅
+
+env -i ./minishell -> SHLVL should  be shown only once command should work ✅
+
+
+unset PATH  ✅
+    --> bash : minishell -> run minishell ✅
+    -> minishell: minishell -> command not found ✅
+
+   ls > cat > ik | ls | cat | caat | ls ✅
+
+Mini$hell$: echo $"$HOME" ✅
+$/Users/sfellahi ✅
+
+Mini$hell$: << $HOME ✅
+> os ✅
+> skos ✅
+> $HOME ✅
+
+
+<<ha ✅
+
+cat<home ✅
+<< < ✅
+<<< ✅
+
+export this=" "'HOME'""  ✅
+Mini$hell$: echo $this  ✅
+  'HOME'  ✅
+bash-3.2$ exit "q" ✅
+
+
+
+Mini$hell$: unset SECURITYSESSIONID USER MallocNanoZone COMMAND_MODE PATH HOME SHELL LaunchInstanceID __CF_USER_TEXT_ENCODING XPC_SERVICE_NAME SSH_AUTH_SOCK XPC_FLAGS LOGNAME TMPDIR ORIGINAL_XDG_CURRENT_DESKTOP SHLVL PWD OLDPWD ZSH PAGER LESS LSCOLORS LS_COLORS HOMEBREW_CACHE HOMEBREW_TEMP TERM_PROGRAM TERM_PROGRAM_VERSION LANG COLORTERM GIT_ASKPASS VSCODE_GIT_ASKPASS_NODE VSCODE_GIT_ASKPASS_EXTRA_ARGS VSCODE_GIT_ASKPASS_MAIN VSCODE_GIT_IPC_HANDLE VSCODE_INJECTION ZDOTDIR USER_ZDOTDIR TERM _
+Mini$hell$: env ✅
+Mini$hell$: export th ygq gqwe giqweb iujqwbek q ✅
+Mini$hell$: echo $th ✅
+
+Mini$hell$: export this=" "'HOME'"" ✅
+Mini$hell$: echo $this ✅
+'HOME' ✅
+////// ;) fu
+bash-3.2$ echo 'hello \\n'✅
+hello \\n ✅
+cat Makefile feefe > outfile | cat outfile ✅
+
+
+
+
+
+/////////////////////////////////////
+
+
+Mini$hell$: < sfdf cat | wc -l ✅
+minishell: <: command not found ✅
+       0✅
+
+
+exit "4    5    7" ✅
+
+exit 44 hh 44 ✅
+
+
+
+echo hell''o"'' '" "'''"''"" ✅
+exit ksdhfk khk hfkdh kdhkh kdfkdh ✅
+exit 3 33 333 44 4 5 55 ✅
+
+
+ls > a > b >b >> r✅
+
+ls > a >> b < dsfkdskf < dkfdklf > c | cat ✅
+
+ls > a > b >b >> r ✅
+
+ls >>b ✅
+
+ls > a > b >'b'
+
+ls > a > b >' b'
+
+ls > a > b > b ✅
+ls >'  ' ✅
+
+
+
+export a b c -d | wc  ✅
+
+
+export a=' '✅
+Mini$hell$: $a✅
+
+
+<< $"" ✅
+ 
+bash-3.2$ export a=" a     a     a   " b="   b     b       b   "
+bash-3.2$ $a$b
+bash: a: command not found
+bash-3.2$ "$a$b"
+bash:  a     a     a      b     b       b   : command not found
+
+
+Mini$hell$: $_
+
+Mini$hell$: 88
+command not found: 88
+Mini$hell$: echo $?
+0
+
+Mini$hell$: t9abi ✅
+command not found: t9abi ✅
+Mini$hell$: ./t9abi ✅
+Minishell: ./t9abi: Permission denied ✅
+Mini$hell$: env | grep PATH ✅
+PATH=/Users/sfellahi/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/sfellahi/.brew/bin:. ✅
+
+Mini$hell$: grep ff ✅
+signals ✅
+
+
+
+
+Mini$hell$: export t="ff    fff" ✅
+Mini$hell$: > $t  ✅
+
+
+Mini$hell$: "    ls "  ✅
+
+
+Mini$hell$: ls -al "gggg     "✅
+
+xport ana+="1337"
+
+ ""
+Error: Failed to parse commands
+
+declare -x aa="a  b" ✅
+declare -x saad="a  b" ✅
+Mini$hell$: export $saad ✅
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\
+
+
+
+Mini$hell$: << ""✅
+
+
+Mini$hell$: export a=""ls -la""✅
+minishell: export: `-la': not a valid identifier✅
+
+echo ll >  test ✅
+
+
+
+echo -nnnnnn ff ✅
+
+
+
+cat < Makefile   ✅
+
+
+ < Makefile  cat  | wc -l ✅
+
+ Mini$hell$: ./mini   exprect  No such file or directory ✅ (exit code ra b7al b7al )
+
+
+exit ggggg  (minishel wast minishell khaso yakhraj 4ir mn wahda ) ✅
+
+exit eeeeeeee ✅
+
+cat < Makefile | wc -l ✅
+
+cat < Makefile Makefile < Makefile | wc -l > test ✅
+
+
+Mini$hell$: cat << $USER ✅
+> $uuuuu ✅
+> $USER ✅
+$uuuuu ✅
+Mini$hell$:  ✅
+
+
+ cat <<           |      <<  ll ✅
+
+
+cat Makefile >> | cat  ✅
+
+ << l > |  cat ✅
+
+ ls > oooout | echo hello | grep e > allo ✅
+
+
+ls | fsdfdfsdf < dfdfdfd | ls | < dfdfdfdf | lssdfadsfsdfsdfsdf | ls ✅
+
+ls < nofile > f3 > f4 | wc -l ❌
+
+
+
+Mini$hell$: export zzz="export z=ls" ✅
+Mini$hell$: $zzz ✅
+
+
+
+
+
+ cat test >>                '' | wc ✅
+
+
+ Mini$hell$: unset HOME ✅
+Mini$hell$: cd  ✅
+ 
+
+Mini$hell$: cat | ks
+
+
+Mini$hell$: cat < Makefile | << k | ls
+> erjgerkg
+> $USER
+> k
+Mini$hell$: 
+
+
+
+
+
+ << l << l | << 
+
+
+ SHELL:$ << l > |  cat 
+heredoc> 
+heredoc> 
+heredoc> 
+heredoc> 
+heredoc> l
+heredoc> l
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==28593==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000105b0ff59 bp 0x7ffeea0ff0c0 sp 0x7ffeea0ff090 T0)
+==28593==The signal is caused by a READ memory access.
+==28593==Hint: address points to the zero page.
+    #0 0x105b0ff59 in handle_output redirections_handler.c:39
+    #1 0x105b10bde in handle_type_redirection redirections_utils.c:24
+    #2 0x105b1149b in single_redirection redirections.c:17
+    #3 0x105b119e7 in multiple_out_redirections redirections.c:59
+    #4 0x105b13fc9 in handle_redirections_in_process pipelines_utils.c:18
+    #5 0x105b0edfc in execute_left_child pipelines.c:26
+    #6 0x105b0fcaa in handle_left_child pipelines.c:62
+    #7 0x105b0f3f6 in ft_pipelines pipelines.c:91
+    #8 0x105b1394d in executer executer.c:21
+    #9 0x105b1347e in build_mini minishell.c:91
+    #10 0x105b13726 in main minishell.c:113
+    #11 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+==28593==Register values:
+rax = 0x0000000000000000  rbx = 0x00007ffeea0ff3a0  rcx = 0x0000000000000000  rdx = 0x0000100000000000  
+rdi = 0x00006030000068e0  rsi = 0x0000100000000000  rbp = 0x00007ffeea0ff0c0  rsp = 0x00007ffeea0ff090  
+ r8 = 0x0000000000000003   r9 = 0x0000000000000000  r10 = 0x00001fffdd41fde4  r11 = 0x0000000000000246  
+r12 = 0x0000000000000000  r13 = 0x0000000000000000  r14 = 0x0000000000000000  r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV redirections_handler.c:39 in handle_output
+
+
+
+
+➜  Myminishell git:(master) ✗ ./minishell 
+SHELL:$ cat <<           |      <<  llcat < Makefile | wc -l
+ cat <<           |      <<  llcat < Makefile | wc -l
+heredoc> 
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==28653==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x00010ebcf7be bp 0x7ffee1040170 sp 0x7ffee1040100 T0)
+==28653==The signal is caused by a READ memory access.
+==28653==Hint: address points to the zero page.
+
+
+    #0 0x10ebcf7be in read_input heredoc_handler.c:57
+    #1 0x10ebcf350 in handle_heredoc heredoc_handler.c:79
+    #2 0x10ebd342a in traverse_and_handle_heredocs pipelines_utils.c:49
+    #3 0x10ebd3550 in traverse_and_handle_heredocs pipelines_utils.c:57
+    #4 0x10ebd3550 in traverse_and_handle_heredocs pipelines_utils.c:57
+    #5 0x10ebd28ff in executer executer.c:20
+    #6 0x10ebd247e in build_mini minishell.c:91
+    #7 0x10ebd2726 in main minishell.c:113
+    #8 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+==28653==Register values:
+rax = 0x0000000000000000  rbx = 0x00007ffee10401e0  rcx = 0x0000000000000000  rdx = 0x0000100000000000  
+rdi = 0x0000602000000e90  rsi = 0x0000100000000000  rbp = 0x00007ffee1040170  rsp = 0x00007ffee1040100  
+ r8 = 0x0000000000000002   r9 = 0x00000000f979173d  r10 = 0x0000000000000058  r11 = 0xfffffe9000000e10  
+r12 = 0x0000000000000000  r13 = 0x0000000000000000  r14 = 0x0000000000000000  r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV heredoc_handler.c:57 in read_input
+==28653==ABORTING
+[1]    28653 abort      ./minishell
+➜  Myminishell git:(master) ✗ 
+
+
+
+
+Myminishell git:(master) ✗ ./minishell 
+SHELL:$ cd $HOME/Documents
+chdir : No such file or directory
+SHELL:$ cd $HOME/Documents
+=================================================================
+==29250==ERROR: AddressSanitizer: attempting double-free on 0x602000000270 in thread T0:
+    #0 0x1022a82c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x102235e19 in expand_var expander_utils.c:33
+    #2 0x102234ee1 in get_expanded_value expander_handler.c:35
+    #3 0x1022351e3 in handle_variable_expansion expander_handler.c:53
+    #4 0x10223586f in process_string expander_handler.c:76
+    #5 0x1022372ad in expand_ast expander.c:102
+    #6 0x102237350 in expand_ast expander.c:105
+    #7 0x102240472 in build_mini minishell.c:89
+    #8 0x102240726 in main minishell.c:113
+    #9 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000000270 is located 0 bytes inside of 16-byte region [0x602000000270,0x602000000280)
+freed by thread T0 here:
+    #0 0x1022a82c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x102235e19 in expand_var expander_utils.c:33
+    #2 0x102234ee1 in get_expanded_value expander_handler.c:35
+    #3 0x1022351e3 in handle_variable_expansion expander_handler.c:53
+    #4 0x10223586f in process_string expander_handler.c:76
+    #5 0x1022372ad in expand_ast expander.c:102
+    #6 0x102237350 in expand_ast expander.c:105
+    #7 0x102240472 in build_mini minishell.c:89
+    #8 0x102240726 in main minishell.c:113
+    #9 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x1022a817d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x1022465a7 in ft_substr+0xb7 (minishell:x86_64+0x1000195a7)
+    #2 0x10223a6f3 in get_value ft_getenv.c:87
+    #3 0x10223b937 in make_env make_env.c:82
+    #4 0x10223fc03 in mini_init minishell.c:67
+    #5 0x102240626 in main minishell.c:103
+    #6 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: double-free (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6) in wrap_free+0xa6
+==29250==ABORTING
+[1]    29250 abort      ./minishell
+➜  Myminishell git:(master) ✗ 
+
+
+
+
+eredoc> ls > saad <<< ls
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==29745==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001019cf7be bp 0x7ffeee240110 sp 0x7ffeee2400a0 T0)
+==29745==The signal is caused by a READ memory access.
+==29745==Hint: address points to the zero page.
+    #0 0x1019cf7be in read_input heredoc_handler.c:57
+    #1 0x1019cf350 in handle_heredoc heredoc_handler.c:79
+    #2 0x1019d0124 in open_in_files redirections_utils.c:68
+    #3 0x1019d07bc in multiple_in_redirections redirections.c:38
+    #4 0x1019d0d63 in handle_exec_redirections redirections.c:87
+    #5 0x1019d2ae8 in executer executer.c:27
+    #6 0x1019d247e in build_mini minishell.c:91
+    #7 0x1019d2726 in main minishell.c:113
+    #8 0x7fff6827bcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+==29745==Register values:
+rax = 0x0000000000000000  rbx = 0x00007ffeee240180  rcx = 0x0000000000000000  rdx = 0x0000100000000000  
+rdi = 0x00006030000094f0  rsi = 0x0000100000000000  rbp = 0x00007ffeee240110  rsp = 0x00007ffeee2400a0  
+ r8 = 0x00000fffffffffff   r9 = 0x0000000000000000  r10 = 0xffffffffffffffff  r11 = 0xfffffea000009470  
+r12 = 0x0000000000000000  r13 = 0x0000000000000000  r14 = 0x0000000000000000  r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV heredoc_handler.c:57 in read_input
+==29745==ABORTING
+SHELL:$
+

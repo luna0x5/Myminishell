@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/24 08:57:09 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:55:47 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 # define MINISHELL_H
 
 # include <limits.h>
-#include <signal.h>
+# include <signal.h>
 # include <errno.h>
-# include <string.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-#include <stdarg.h>
 # include <stdio.h>
+# include <readline/readline.h>
 # include <readline/history.h>
-#include <readline/readline.h>
+
 # include "../includes/expander.h"
 
 typedef struct s_minishell
@@ -60,6 +59,7 @@ int 	ft_export(t_minishell *mini);
 int		is_valid_id(char *key);
 int		ft_cd(t_minishell *mini);
 void	update_env(t_minishell *mini, const char *key, const char *new_value);
+int		ft_unset(t_minishell *mini);
 
 void	executer(t_minishell *mini);
 
