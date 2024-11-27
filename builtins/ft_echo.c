@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:24:11 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:41:33 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_n_option(char *str)
 {
-    int	i;
+	int	i;
 
 	i = 0;
 	if (!str)

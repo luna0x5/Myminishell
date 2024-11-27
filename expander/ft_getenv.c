@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 22:20:33 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:33:00 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ char	*get_value(char *data)
 
 	i = 0;
 	equal_len = count_equal_len(data);
-	if (data[equal_len] && data[equal_len] == '+' && data[equal_len + 1] && data[equal_len + 1] == '=')
+	if (data[equal_len] && data[equal_len] == '+' && data[equal_len + 1]
+		&& data[equal_len + 1] == '=')
 		i += 2;
 	else if (data[equal_len] && data[equal_len] == '=')
 		i++;

@@ -6,13 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:26:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 19:30:46 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:44:11 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int 	is_str_nbr(char *str)
+static int	is_str_nbr(char *str)
 {
 	int	i;
 
@@ -21,15 +21,16 @@ static int 	is_str_nbr(char *str)
 		i++;
 	while (str[i])
 	{
-		if(!ft_isdigit(str[i]))
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
-// should I add the checking for parents and children for writing exit ??
-int ft_exit(t_minishell *mini)
+
+int	ft_exit(t_minishell *mini)
 {
+// should I add the checking for parents and children for writing exit ??
 	if (mini->args[1])
 	{
 		write(2, "exit\n", 5);

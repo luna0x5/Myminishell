@@ -6,23 +6,23 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 23:06:15 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:43:15 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void ft_exported_list(t_expander *exp)
+static void	ft_exported_list(t_expander *exp)
 {
-    t_env   *current;
+	t_env	*current;
 
-    current = exp->env;
-    while (current)
-    {
-        if (ft_strcmp("_", current->key))
-        {
-            write(1, "declare -x ", 11);
-            ft_putstr_fd(current->key, 1);
+	current = exp->env;
+	while (current)
+	{
+		if (ft_strcmp("_", current->key))
+		{
+			write(1, "declare -x ", 11);
+			ft_putstr_fd(current->key, 1);
 			if (ft_strchr(current->data, '='))
 			{
 				write(1, "=", 1);
@@ -30,10 +30,10 @@ static void ft_exported_list(t_expander *exp)
 				ft_putstr_fd(current->value, 1);
 				write(1, "\"", 1);
 			}
-            write(1, "\n", 1);
-        }
-        current = current->next;
-    }
+			write(1, "\n", 1);
+		}
+		current = current->next;
+	}
 }
 
 static int	make_export_node(t_env **node, char *s)
@@ -41,19 +41,19 @@ static int	make_export_node(t_env **node, char *s)
 	char	*tmp;
 
 	*node = ft_lstnew(NULL);
-    if (!*node)
-        return (0);
-    (*node)->key = extract_env_key(s);
-    if (!(*node)->key)
-        return (0);
-    (*node)->value = get_value(s);
-    if (!(*node)->value)
-        return (0);
-    if ((*node)->value[0] == '\0')
-    {
-        free((*node)->value);
-        (*node)->value = NULL;
-    }
+	if (!*node)
+		return (0);
+	(*node)->key = extract_env_key(s);
+	if (!(*node)->key)
+		return (0);
+	(*node)->value = get_value(s);
+	if (!(*node)->value)
+		return (0);
+	if ((*node)->value[0] == '\0')
+	{
+		free((*node)->value);
+		(*node)->value = NULL;
+	}
 	tmp = ft_strjoin((*node)->key, "=");
 	(*node)->data = ft_strjoin(tmp, (*node)->value);
 	free(tmp);
@@ -87,9 +87,9 @@ static void	add_value(t_env *env, t_env *node)
 	}
 }
 
-static int  process_arg(t_minishell *mini, t_expander *exp, char *s)
+static int	process_arg(t_minishell *mini, t_expander *exp, char *s)
 {
-    t_env   *node;
+	t_env	*node;
 	char	*check;
 
 	node = NULL;
@@ -110,18 +110,18 @@ static int  process_arg(t_minishell *mini, t_expander *exp, char *s)
 	return (1);
 }
 
-int ft_export(t_minishell *mini)
+int	ft_export(t_minishell *mini)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    if (!mini->args[i])
-        ft_exported_list(mini->exp);
-    while (mini->args[i])
-    {
-        if (!process_arg(mini, mini->exp, mini->args[i]))
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 1;
+	if (!mini->args[i])
+		ft_exported_list(mini->exp);
+	while (mini->args[i])
+	{
+		if (!process_arg(mini, mini->exp, mini->args[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }

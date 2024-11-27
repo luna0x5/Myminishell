@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:24:43 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 19:48:31 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:36:12 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	last -> next = new;
 }
 
-char    *extract_env_key(char *data)
+char	*extract_env_key(char *data)
 {
-    char    *key;
+	char	*key;
 
-    key = ft_substr(data, 0, count_equal_len(data));
-    if (!key)
-        return (NULL);
-    return (key);
+	key = ft_substr(data, 0, count_equal_len(data));
+	if (!key)
+		return (NULL);
+	return (key);
 }
 
 t_env	*make_env(void)

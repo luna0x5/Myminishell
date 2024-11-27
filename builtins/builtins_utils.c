@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 23:05:55 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:40:20 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 void	update_env(t_minishell *mini, const char *key, const char *new_value)
 {
-    t_env		*node;
+	t_env		*node;
 	char		*tmp;
 
-    node = mini->exp->env;
-    while (node)
-    {
-        if (!strcmp(node->key, key))
-        {
-            if (node->value)
-                free(node->value);
-            node->value = ft_strdup(new_value);
-            if (node->data)
-                free(node->data);
-            tmp = ft_strjoin(key, "=");
-            node->data = ft_strjoin(tmp, new_value);
+	node = mini->exp->env;
+	while (node)
+	{
+		if (!strcmp(node->key, key))
+		{
+			if (node->value)
+				free(node->value);
+			node->value = ft_strdup(new_value);
+			if (node->data)
+				free(node->data);
+			tmp = ft_strjoin(key, "=");
+			node->data = ft_strjoin(tmp, new_value);
 			free(tmp);
 			tmp = NULL;
-            break ;
-        }
-        node = node->next;
-    }
+			break ;
+		}
+		node = node->next;
+	}
 }
 
 int	is_valid_id(char *key)

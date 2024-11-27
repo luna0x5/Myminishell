@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 13:00:47 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/24 09:45:39 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:44:30 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	cd_home(t_minishell *mini)
 	return (0);
 }
 
-static int 	cd_pwd(t_minishell *mini)
+static int	cd_pwd(t_minishell *mini)
 {
-    char	*tmp;
+	char	*tmp;
 
 	if (chdir(mini->oldpwd) < 0)
 	{
@@ -114,7 +114,7 @@ int	ft_cd(t_minishell *mini)
 		i = 0;
 	}
 	else
-    	i = cd_chdir(mini->args[1], mini);
+		i = cd_chdir(mini->args[1], mini);
 	update_env(mini, "PWD", mini->pwd);
 	update_env(mini, "OLDPWD", mini->oldpwd);
 	return (i);
