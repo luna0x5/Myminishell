@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 02:27:15 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/09 23:31:30 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:31:27 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include <stdio.h>
-# include <readline/readline.h>
 # include "../libft/libft.h"
 
 // types of tokens
@@ -64,6 +62,8 @@ int		check_tokens(t_token **list, t_token *token, char **line);
 
 // make tokens list
 int		process_tokens(t_token **list, t_token *token, char **line, char *beg);
+
+// the main function of the tokenizer
 t_token	*make_tokens(char **line);
 
 #endif

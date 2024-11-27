@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 02:32:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/07 07:10:06 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:22:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_parser	*create_node(t_token *operator, t_parser *left, t_parser *right);
 t_parser	*parse_primary(t_token **tokens);
 int			handle_redir(t_parser **ast, t_token **tokens);
 
-// the main function
+// the main function of the parser
 t_parser	*make_ast(t_token *tokens);
 
 #endif

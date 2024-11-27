@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/26 23:55:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 01:31:08 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # include "../includes/expander.h"
 
+// the main structure of the program
 typedef struct s_minishell
 {
 	int			s_stdin;
@@ -36,63 +37,63 @@ typedef struct s_minishell
 	t_token		*tokens;
 }				t_minishell;
 
-t_env	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_env **lst, t_env *new);
-char    *extract_env_key(char *data);
-
+// execution of commands functions
+void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
+int		execute_builtins(t_minishell *mini);
+int		fork_and_exec(char *path, char **args, char **env_2d);
+int		exec_simple_cmd(t_minishell *node, char **env_2d);
+void	exec_no_fork(t_minishell *node, char **env_2d, char *path);
 char	*get_path(char *cmd);
 int		get_exit_status(int status);
 t_env	*make_env(void);
 int		count_arg(t_parser *ast);
 char	**make_env_2d(t_env *env);
 
-void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
-void	ft_pipelines(t_minishell *mini, t_parser *ast);
-void	handle_exec_redirections(t_minishell *mini, t_parser *node);
-int		execute_builtins(t_minishell *mini);
-
+// Builtins functions
 int		ft_env(t_minishell *mini);
 int		ft_echo(t_minishell *mini);
 int		ft_exit(t_minishell *mini);
-int 	ft_pwd(t_minishell *mini);
-int 	ft_export(t_minishell *mini);
+int		ft_pwd(t_minishell *mini);
+int		ft_export(t_minishell *mini);
 int		is_valid_id(char *key);
 int		ft_cd(t_minishell *mini);
 void	update_env(t_minishell *mini, const char *key, const char *new_value);
 int		ft_unset(t_minishell *mini);
+t_env	*ft_lstnew(void *content);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+char	*extract_env_key(char *data);
 
-void	executer(t_minishell *mini);
-
+// redirections functions
+void	handle_exec_redirections(t_minishell *mini, t_parser *node);
 int		handle_input(t_parser *node);
 int		handle_output(t_parser *node);
 int		handle_append(t_parser *node);
 int		handle_heredoc(t_parser *node);
-
 int		open_out(t_parser *n);
 int		open_append(t_parser *n);
-
 int		handle_type_redirection(t_parser *node, t_red_type type);
 void	find_execute_cmd(t_minishell *mini, t_parser *node);
 int		open_in_files(t_minishell *mini, t_parser *node);
 int		open_out_files(t_minishell *mini, t_parser *node);
-void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
-
 void	multiple_in_redirections(t_minishell *mini, t_parser *node);
 void	multiple_out_redirections(t_minishell *mini, t_parser *node);
 
+// execution of pipelines functions
+void	ft_pipelines(t_minishell *mini, t_parser *ast);
+void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
+void	handle_redirections_in_process(t_minishell *mini, t_parser *node);
+int		setup_pipe(int pfds[2]);
+void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
+
+// the signal handlers
 void	ft_sigint_handler(int num);
 void	ft_eof_handler(void);
 void	ft_sigquit_handler(int num);
 
-void	handle_redirections_in_process(t_minishell *mini, t_parser *node);
-int		setup_pipe(int pfds[2]);
-void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
-void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
+// the main function of the executer
+void	executer(t_minishell *mini);
 
-int	fork_and_exec(char *path, char **args, char **env_2d);
-int	exec_simple_cmd(t_minishell *node, char **env_2d);
-void	exec_no_fork(t_minishell *node, char **env_2d, char *path);
-
+// Cleanup functions
 void	free_tree(t_parser *ast);
 void	free_env(t_env **env);
 void	cleanup_mini(t_minishell *mini);

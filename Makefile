@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/11/27 00:49:19 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/11/27 01:02:24 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 # Source files
 T_SOURCES = ./tokenizer/tokenizer.c \
@@ -76,18 +76,18 @@ INCLUDES = ./includes/tokenizer.h \
 		   ./includes/minishell.h 
 
 # Compiler flags 
-CFLAGS = -I /Users/hmoukit/homebrew/opt/readline/include -lreadline -L /Users/hmoukit/homebrew/opt/readline/lib
-# CFLAGS = -I /Users/hmoukit/homebrew/opt/readline/include -L /Users/hmoukit/homebrew/opt/readline/lib
+RINCLUDE = -I /Users/hmoukit/homebrew/opt/readline/include
+RLINK = -lreadline -L /Users/hmoukit/homebrew/opt/readline/lib
 
 # Rule to create object files
 %.o: %.c
-	$(CC) $(FLAGS) -I /Users/hmoukit/homebrew/opt/readline/include -c -o $@ $<
+	$(CC) $(FLAGS) $(RINCLUDE) -c -o $@ $<
 
 # Target to build the final executable
 all: libft $(NAME)
 
 $(NAME): $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(INCLUDES)
-	$(CC) $(FLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(CFLAGS)  ./libft/libft.a
+	$(CC) $(FLAGS) -o $(NAME) $(T_OBJECTS) $(P_OBJECTS) $(EXP_OBJECTS) $(EXEC_OBJECTS) $(B_OBJECTS) $(RINCLUDE) $(RLINK) ./libft/libft.a
 
 # libft target
 libft:
