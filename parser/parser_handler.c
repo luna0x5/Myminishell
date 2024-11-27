@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 05:50:28 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:54:12 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,22 @@ static int	handle_rfile(t_token **tokens, t_parser *redir_node)
 	return (1);
 }
 
+static int	first_red_make(t_parser *first_red, t_token **tokens)
+{
+	if (!first_red->left && *tokens && (*tokens)->token_type == WORD)
+	{
+		first_red->left = parse_primary(tokens);
+		if (!first_red->left)
+			return (0);
+	}
+	else if (*tokens && (*tokens)->token_type == WORD)
+	{
+		if (!handle_arg(tokens, first_red->left))
+			return (0);
+	}
+	return (1);
+}
+
 int	handle_redir(t_parser **ast, t_token **tokens)
 {
 	t_parser	*redir_node;
@@ -86,17 +102,8 @@ int	handle_redir(t_parser **ast, t_token **tokens)
 		*ast = redir_node;
 		if (first_red)
 		{
-			if (!first_red->left && *tokens && (*tokens)->token_type == WORD)
-			{
-				first_red->left = parse_primary(tokens);
-				if (!first_red->left)
-					return (0);
-			}
-			else if (*tokens && (*tokens)->token_type == WORD)
-			{
-				if (!handle_arg(tokens, first_red->left))
-					return (0);
-			}
+			if (!first_red_make(first_red, tokens))
+				return (0);
 		}
 	}
 	return (1);

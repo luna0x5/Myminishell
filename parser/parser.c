@@ -6,49 +6,58 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:46:43 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:45:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:03:30 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parser.h"
 
-static t_parser	*parse_expression(int prec_level, t_token **tokens)
+static bool	handle_redirection(t_token **tokens, t_parser **left)
+{
+	t_token	*operator;
+
+	operator = *tokens;
+	if (!check_redir(operator->token_type))
+		return (true);
+	if (!handle_redir(left, tokens))
+		return (false);
+	return (true);
+}
+
+static t_parser	*parse_operator(t_parser *left, t_token *op, t_token **tokens)
+{
+	t_parser	*right;
+
+	*tokens = (*tokens)->next;
+	right = parse_expression(assign_prec(op) + 1, tokens);
+	left = create_node(op, left, right);
+	return (left);
+}
+
+t_parser	*parse_expression(int prec_level, t_token **tokens)
 {
 	t_parser	*left;
-	t_parser	*right;
 	t_token		*operator;
 
 	left = parse_primary(tokens);
 	if (!left)
 	{
-		operator = *tokens;
-		if (check_redir(operator->token_type))
-		{
-			if (!handle_redir(&left, tokens))
-				left = NULL;
-		}
+		if (!handle_redirection(tokens, &left))
+			return (NULL);
 	}
 	while (*tokens && assign_prec(*tokens) >= prec_level)
 	{
 		operator = *tokens;
 		if (check_redir(operator->token_type))
 		{
-			if (!handle_redir(&left, tokens))
-			{
-				left = NULL;
-				break ;
-			}
+			if (!handle_redirection(tokens, &left))
+				return (NULL);
 		}
 		else
 		{
-			*tokens = (*tokens)->next;
-			right = parse_expression(assign_prec(operator) + 1, tokens);
-			left = create_node(operator, left, right);
+			left = parse_operator(left, operator, tokens);
 			if (!left)
-			{
-				left = NULL;
-				break ;
-			}
+				return (NULL);
 		}
 	}
 	return (left);

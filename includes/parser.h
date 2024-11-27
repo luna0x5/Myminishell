@@ -6,12 +6,14 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 02:32:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:22:35 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:59:24 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# include <stdbool.h>
 
 # include "../includes/tokenizer.h"
 
@@ -60,6 +62,7 @@ t_parser	*create_node(t_token *operator, t_parser *left, t_parser *right);
 
 // parser handlers
 t_parser	*parse_primary(t_token **tokens);
+t_parser	*parse_expression(int prec_level, t_token **tokens);
 int			handle_redir(t_parser **ast, t_token **tokens);
 
 // the main function of the parser
