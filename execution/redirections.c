@@ -3,71 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:44:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/12 01:20:24 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 05:17:57 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	single_redirection(t_parser *node)
+int	single_redirection(t_parser *node)
 {
 	if (!handle_type_redirection(node, node->io_type))
-		return ;
+		return (0);
+	return (1);
 }
 
-void	multiple_in_redirections(t_minishell *mini, t_parser *node)
+int	failed_exit_s(unsigned char *exit)
+{
+	*exit = 1;
+	return (0);
+}
+
+int	multiple_in_redirections(t_minishell *mini, t_parser *node)
 {
 	static int	first;
 
 	if (!node)
-		return ;
+		return (failed_exit_s(&mini->exp->exit_s));
 	if (node->id->id_type == REDIRECTION)
 	{
 		if (node->io_type == INPUT || node->io_type == HEREDOC)
 		{
 			if (!first)
 			{
-				single_redirection(node);
+				if (!single_redirection(node))
+					return (failed_exit_s(&mini->exp->exit_s));
 				first = 1;
 			}
 			if (first && node->left && node->left->id->id_type == REDIRECTION)
 			{
 				if (!open_in_files(mini, node->left))
-					return ;
+					return (failed_exit_s(&mini->exp->exit_s));
 			}
 		}
-		multiple_in_redirections(mini, node->left);
+		if (!multiple_in_redirections(mini, node->left))
+			return (failed_exit_s(&mini->exp->exit_s));
 		first = 0;
 	}
+	return (1);
 }
 
-void	multiple_out_redirections(t_minishell *mini, t_parser *node)
+int	multiple_out_redirections(t_minishell *mini, t_parser *node)
 {
 	static int	first;
 
 	if (!node)
-		return ;
+		return (failed_exit_s(&mini->exp->exit_s));
 	if (node->id->id_type == REDIRECTION)
 	{
 		if (node->io_type == OUTPUT || node->io_type == APPEND)
 		{
 			if (!first)
 			{
-				single_redirection(node);
+				if (!single_redirection(node))
+					return (failed_exit_s(&mini->exp->exit_s));
 				first = 1;
 			}
 			if (first && node->left && node->left->id->id_type == REDIRECTION)
 			{
 				if (!open_out_files(mini, node->left))
-					return ;
+					return (failed_exit_s(&mini->exp->exit_s));
 			}
 		}
-		multiple_out_redirections(mini, node->left);
+		if (!multiple_out_redirections(mini, node->left))
+			return (failed_exit_s(&mini->exp->exit_s));
 		first = 0;
 	}
+	return (1);
 }
 
 void	handle_exec_redirections(t_minishell *mini, t_parser *node)
@@ -84,7 +97,8 @@ void	handle_exec_redirections(t_minishell *mini, t_parser *node)
 	}
 	else if (pid == 0)
 	{
-		multiple_in_redirections(mini, node);
+		if (!multiple_in_redirections(mini, node))
+			exit(1);
 		multiple_out_redirections(mini, node);
 		find_execute_cmd(mini, node);
 		exit(0);

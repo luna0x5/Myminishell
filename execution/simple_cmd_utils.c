@@ -6,21 +6,11 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 11:05:18 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 13:39:32 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// int	handle_builtin(t_minishell *node)
-// {
-// 	if (node && node->ast && node->ast->id->id_type == CMD && node->cmd)
-// 	{
-// 		if (is_builtin(node->cmd))
-// 			return (free(node->cmd) ,exec_builtin(node));
-// 	}
-// 	return (-1);
-// }
 
 int	fork_and_exec(char *path, char **args, char **env_2d)
 {
@@ -54,11 +44,16 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 	char	*path;
 	int		status;
 
-	path = get_path(node->args[0]);
-	if (!path)
+	if (ft_strchr(node->args[0], '/'))
+		path = ft_strdup(node->args[0]);
+	else
 	{
-		write(2, "path not found\n", 16);
-		return (127);
+		path = get_path(node->args[0]);
+		if (!path)
+		{
+			write(2, "SHELL: command not found\n", 25);
+			return (127);
+		}
 	}
 	status = fork_and_exec(path, node->args, env_2d);
 	free(path);

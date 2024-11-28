@@ -6,12 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 02:07:09 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 03:19:32 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-
+#include <stdio.h>
 char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 {
 	int		start;
@@ -43,7 +43,7 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp)
 {
 	(*i)++;
-	if (!ft_isvalid(arg[*i]))
+	if (!arg[*i])
 		return (ft_strdup("$"));
 	if (arg[*i] == '$')
 	{
@@ -63,7 +63,7 @@ void	update_ident(t_parser *ast, char *result)
 void	check_quote(char *arg, int *i, char **result, t_expander *exp)
 {
 	if (ft_isquote(arg[*i]) == 1)
-		handle_single_quote(arg, result, i);
+		handle_single_quote(arg, result, i, 0);
 	else if (ft_isquote(arg[*i]) == 2)
 		handle_double_quote(arg, result, i, exp);
 }

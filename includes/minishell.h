@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:08:39 by souchane          #+#    #+#             */
-/*   Updated: 2024/11/27 01:31:08 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 11:46:28 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int		ft_unset(t_minishell *mini);
 t_env	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 char	*extract_env_key(char *data);
+int		check_long(char *str);
+int		is_str_nbr(char *str);
 
 // redirections functions
 void	handle_exec_redirections(t_minishell *mini, t_parser *node);
@@ -75,13 +77,14 @@ int		handle_type_redirection(t_parser *node, t_red_type type);
 void	find_execute_cmd(t_minishell *mini, t_parser *node);
 int		open_in_files(t_minishell *mini, t_parser *node);
 int		open_out_files(t_minishell *mini, t_parser *node);
-void	multiple_in_redirections(t_minishell *mini, t_parser *node);
-void	multiple_out_redirections(t_minishell *mini, t_parser *node);
+int		multiple_in_redirections(t_minishell *mini, t_parser *node);
+int		multiple_out_redirections(t_minishell *mini, t_parser *node);
+
 
 // execution of pipelines functions
 void	ft_pipelines(t_minishell *mini, t_parser *ast);
 void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
-void	handle_redirections_in_process(t_minishell *mini, t_parser *node);
+int		handle_redirections_in_process(t_minishell *mini, t_parser *node);
 int		setup_pipe(int pfds[2]);
 void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
 

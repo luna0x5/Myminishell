@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:43:15 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 11:56:18 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	add_value(t_env *env, t_env *node)
 		{
 			value = ft_strjoin(current->value, node->value);
 			free(current->value);
-			current->value = value; //maybe leak
+			current->value = value;
 			free(current->data);
 			tmp = ft_strjoin(current->key, "=");
 			current->data = ft_strjoin(tmp, current->value);

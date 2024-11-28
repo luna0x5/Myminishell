@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipelines.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:23:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/12 01:17:40 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 04:14:30 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	execute_left_child(t_minishell *mini, int pfds[2], t_parser *left)
 	close(pfds[1]);
 	mini->ast = left;
 	if (mini->ast->id->id_type == REDIRECTION && mini->ast->io_type != HEREDOC)
-		handle_redirections_in_process(mini, mini->ast);
+	{
+		if (!handle_redirections_in_process(mini, mini->ast))
+			exit(1);
+	}
 	else if (mini->ast && mini->ast->id->id_type == CMD)
 		handle_exec_simple_cmd(mini, mini->ast, 1);
 	else if (mini->ast->id->id_type == PIPELINE)
@@ -42,7 +45,10 @@ void	execute_right_child(t_minishell *mini, int pfds[2], t_parser *right)
 	close(pfds[0]);
 	mini->ast = right;
 	if (mini->ast->id->id_type == REDIRECTION && mini->ast->io_type != HEREDOC)
-		handle_redirections_in_process(mini, mini->ast);
+	{
+		if (!handle_redirections_in_process(mini, mini->ast))
+			exit(1);
+	}
 	else if (mini->ast && mini->ast->id->id_type == CMD)
 		handle_exec_simple_cmd(mini, mini->ast, 1);
 	exit(mini->exp->exit_s);

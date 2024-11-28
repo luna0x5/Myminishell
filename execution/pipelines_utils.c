@@ -6,17 +6,20 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 01:59:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 04:12:19 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_redirections_in_process(t_minishell *mini, t_parser *node)
+int	handle_redirections_in_process(t_minishell *mini, t_parser *node)
 {
-	multiple_in_redirections(mini, node);
-	multiple_out_redirections(mini, node);
+	if (!multiple_in_redirections(mini, node))
+		return (0);
+	if (!multiple_out_redirections(mini, node))
+		return (0);
 	find_execute_cmd(mini, node);
+	return (1);
 }
 
 int	setup_pipe(int pfds[2])

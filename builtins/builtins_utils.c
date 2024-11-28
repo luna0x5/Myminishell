@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:40:20 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 11:45:38 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,24 @@ int	is_valid_id(char *key)
 	while (key[i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_str_nbr(char *str)
+{
+	int	i;
+
+	if (!check_long(str))
+		return (0);
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}

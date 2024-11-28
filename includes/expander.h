@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 02:08:51 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 03:19:42 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*expand_var(char *arg, t_expander *exp);
 // the expander handlers
 void	handle_heredoc_ex(t_parser *ast, t_expander *exp);
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp);
-void	handle_single_quote(char *arg, char **result, int *i);
+void	handle_single_quote(char *arg, char **result, int *i, int check);
 void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp);
 void	process_string(t_parser *ast, t_expander *exp);
 
