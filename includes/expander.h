@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:30:06 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 02:08:51 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,12 @@ typedef struct s_expander
 	unsigned char	exit_s;
 }					t_expander;
 
-// added for norminette since multiple variables are used in quotes fcts
-typedef struct s_quote
-{
-	char	**result;
-	char	*arg;
-	int		*i;
-	char	quote_type;
-}			t_quote;
-
 // check if the character is a valid character for expanding
 int		ft_isvalid(char c);
 
-// used to make the functions smaller
-void	initialize_quote(t_quote *quote, int *i, char **result, char *arg);
+// to append two strings or a string witg character
 char	*append_string(char *result, const char *to_append);
-void	append_single_char(t_quote *quote, int *i, char **result);
+void	append_single_char(char *arg, int *i, char **result);
 
 // utils used in expanding
 char	*get_value(char *data);
@@ -55,8 +45,9 @@ char	*expand_var(char *arg, t_expander *exp);
 
 // the expander handlers
 void	handle_heredoc_ex(t_parser *ast, t_expander *exp);
-void	handle_quoted_string(t_quote *q, t_expander *exp);
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp);
+void	handle_single_quote(char *arg, char **result, int *i);
+void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp);
 void	process_string(t_parser *ast, t_expander *exp);
 
 // calculating the len of the key and the value

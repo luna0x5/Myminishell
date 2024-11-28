@@ -6,40 +6,40 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 10:54:57 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/27 23:36:15 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// const char *n_type(t_identifier type)
-// {
-// 	switch (type)
-// 	{
-// 		case CMD: return "CMD";
-// 		case ARG: return "ARG";
-// 		case REDIRECTION: return "REDIRECTION";
-// 		case RFILE: return "RFILE";
-// 		case PIPELINE: return "PIPE";
-// 		default: return "UNKNOWN";
-// 	}
-// }
-// void print_ast(t_parser *node, int level, char *position)
-// {
-// 	if (node == NULL)
-// 	{
-// 		printf("%*s%s: NULL\n", level * 4, "", position);
-// 		return;
-// 	}
-// 	printf("%*s%s: %s", level * 4, "", position, n_type(node->id->id_type));
-// 	if (node->id->id_type == REDIRECTION)
-// 		printf(": %d", node->io_type);
-// 	if (node->id->ident)
-// 		printf(": %s", node->id->ident);
-// 	printf("\n");
-// 	print_ast(node->left, level + 1, "Left");
-// 	print_ast(node->right, level + 1, "Right");
-// }
+const char *n_type(t_identifier type)
+{
+	switch (type)
+	{
+		case CMD: return "CMD";
+		case ARG: return "ARG";
+		case REDIRECTION: return "REDIRECTION";
+		case RFILE: return "RFILE";
+		case PIPELINE: return "PIPE";
+		default: return "UNKNOWN";
+	}
+}
+void print_ast(t_parser *node, int level, char *position)
+{
+	if (node == NULL)
+	{
+		printf("%*s%s: NULL\n", level * 4, "", position);
+		return;
+	}
+	printf("%*s%s: %s", level * 4, "", position, n_type(node->id->id_type));
+	if (node->id->id_type == REDIRECTION)
+		printf(": %d", node->io_type);
+	if (node->id->ident)
+		printf(": %s", node->id->ident);
+	printf("\n");
+	print_ast(node->left, level + 1, "Left");
+	print_ast(node->right, level + 1, "Right");
+}
 void	free_token_tree(t_minishell *mini, char **line)
 {
 	free_line(line);
@@ -84,8 +84,8 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 		return (0);
 	}
 	expand_ast(mini->ast, mini->exp);
-	// print_ast(mini->ast, 0, "ROOT");
-	executer(mini);
+	print_ast(mini->ast, 0, "ROOT");
+	// executer(mini);
 	free_token_tree(mini, line);
 	return (1);
 }

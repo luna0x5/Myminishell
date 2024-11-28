@@ -3,71 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quoted_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:08:25 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/10 00:57:17 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 02:26:27 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
 
-static void	append_substring_to_result(char **res, char *arg, int star, int end)
+void	handle_single_quote(char *arg, char **result, int *i)
 {
-	char	*temp;
+	int		start;
+	char	*new_val;
 
-	temp = ft_substr(arg, star, end - star);
-	*res = append_string(*res, temp);
-	free(temp);
+	start = (*i)++;
+	while (arg[*i] && arg[*i] != '\'')
+		(*i)++;
+	new_val = ft_substr(arg, start + 1, (*i) - start - 1);
+	*result = ft_strjoin(*result, new_val);
+	free(new_val);
+	new_val = NULL;
+	(*i)++;
 }
 
-static void	handle_dollar_expansion(t_quote *q, t_expander *exp, int *start)
+void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp)
 {
-	char	*temp;
+	int		start;
+	char	*expand;
 
-	if (q->arg[*(q->i) + 1] == '$')
+	start = (*i)++;
+	while (arg[*i] && arg[*i] != '"')
 	{
-		(*(q->i))++;
-		*(q->result) = append_string(*(q->result), "$");
-		(*(q->i))++;
-		*start = *(q->i);
-	}
-	else if (!q->arg[*(q->i) + 1] || !ft_isvalid(q->arg[*(q->i) + 1]))
-	{
-		(*(q->i))++;
-		*(q->result) = append_string(*(q->result), "");
-	}
-	else
-	{
-		temp = handle_variable_expansion(q->arg, q->i, exp);
-		*(q->result) = append_string(*(q->result), temp);
-		free(temp);
-		*start = *(q->i);
-	}
-}
-
-static void	process_quoted_string(t_quote *q, t_expander *exp, int *start)
-{
-	while (q->arg[*(q->i)] && q->arg[*(q->i)] != q->quote_type)
-	{
-		if (q->quote_type == '"' && q->arg[*(q->i)] == '$')
+		if (arg[*i] == '$')
 		{
-			if (*(q->i) > *start)
-				append_substring_to_result(q->result, q->arg, *start, *(q->i));
-			handle_dollar_expansion(q, exp, start);
+			expand = handle_variable_expansion(arg, i, exp);
+			*result = append_string(*result, expand);
+			free(expand);
+			expand = NULL;
 		}
 		else
-			(*(q->i))++;
+			append_single_char(arg, i, result);
 	}
-}
-
-void	handle_quoted_string(t_quote *q, t_expander *exp)
-{
-	int	start;
-
-	start = ++(*(q->i));
-	process_quoted_string(q, exp, &start);
-	if (*(q->i) > start)
-		append_substring_to_result(q->result, q->arg, start, *(q->i));
-	(*(q->i))++;
+	(*i)++;
 }

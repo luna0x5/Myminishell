@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/17 12:45:25 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/28 02:07:09 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp)
 {
 	(*i)++;
-	if (arg[*i] == '\0')
+	if (!ft_isvalid(arg[*i]))
 		return (ft_strdup("$"));
 	if (arg[*i] == '$')
 	{
@@ -60,31 +60,35 @@ void	update_ident(t_parser *ast, char *result)
 	ast->id->ident = result;
 }
 
+void	check_quote(char *arg, int *i, char **result, t_expander *exp)
+{
+	if (ft_isquote(arg[*i]) == 1)
+		handle_single_quote(arg, result, i);
+	else if (ft_isquote(arg[*i]) == 2)
+		handle_double_quote(arg, result, i, exp);
+}
+
 void	process_string(t_parser *ast, t_expander *exp)
 {
 	int		i;
 	char	*result;
 	char	*expand;
-	t_quote	quote;
 
 	result = NULL;
-	initialize_quote(&quote, &i, &result, ast->id->ident);
-	while (quote.arg[i])
+	i = 0;
+	while (ast->id->ident[i])
 	{
-		if (quote.arg[i] == '$')
+		if (ast->id->ident[i] == '$')
 		{
 			expand = handle_variable_expansion(ast->id->ident, &i, exp);
 			result = append_string(result, expand);
 			free(expand);
 			expand = NULL;
 		}
-		else if (ft_isquote(quote.arg[i]))
-		{
-			quote.quote_type = quote.arg[i];
-			handle_quoted_string(&quote, exp);
-		}
+		else if (ft_isquote(ast->id->ident[i]))
+			check_quote(ast->id->ident, &i, &result, exp);
 		else
-			append_single_char(&quote, &i, &result);
+			append_single_char(ast->id->ident, &i, &result);
 	}
 	update_ident(ast, result);
 }
