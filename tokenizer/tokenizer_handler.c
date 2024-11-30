@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:45:20 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/04 16:18:27 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:59:15 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	closer_quote(char **line)
 			(*line)++;
 		if (**line != '\'')
 		{
-			write(2, "no closing quotes\n", 18);
+			write(2, "SHELL: SYNTAX ERROR: closing quote\n", 35);
 			return (0);
 		}
 	}
@@ -34,7 +34,7 @@ static int	closer_quote(char **line)
 			(*line)++;
 		if (**line != '"')
 		{
-			write(2, "no closing quotes\n", 18);
+			write(2, "SHELL: SYNTAX ERROR: closing quote\n", 35);
 			return (0);
 		}
 	}

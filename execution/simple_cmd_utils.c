@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 13:39:32 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:55:00 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	fork_and_exec(char *path, char **args, char **env_2d)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
+		perror("SHELL: fork");
 		free(path);
 		return (1);
 	}
@@ -29,7 +29,7 @@ int	fork_and_exec(char *path, char **args, char **env_2d)
 	{
 		if (execve(path, args, env_2d) == -1)
 		{
-			perror("execve");
+			perror("SHELL: execve");
 			free(path);
 			exit(1);
 		}
@@ -69,7 +69,7 @@ void	exec_no_fork(t_minishell *node, char **env_2d, char *path)
 		if (execve(path, node->args, env_2d) == -1)
 		{
 			free_args(env_2d);
-			perror("execve");
+			perror("SHELL: execve");
 			free(path);
 			exit(1);
 		}

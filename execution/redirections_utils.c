@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 23:46:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/11 18:15:27 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:54:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	open_in_files(t_minishell *mini, t_parser *node)
 			fd = open(node->right->id->ident, O_RDONLY);
 			if (fd < 0)
 			{
-				perror("fd");
+				perror("SHELL: fd");
 				return (0);
 			}
 			close(fd);

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:23:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 04:14:30 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:53:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execute_left_child(t_minishell *mini, int pfds[2], t_parser *left)
 	close(pfds[0]);
 	if (dup2(pfds[1], STDOUT_FILENO) == -1)
 	{
-		perror("dup2 left");
+		perror("SHELL: dup2 left");
 		exit(1);
 	}
 	close(pfds[1]);
@@ -39,7 +39,7 @@ void	execute_right_child(t_minishell *mini, int pfds[2], t_parser *right)
 	close(pfds[1]);
 	if (dup2(pfds[0], STDIN_FILENO) == -1)
 	{
-		perror("dup2 right");
+		perror("SHELL: dup2 right");
 		exit(1);
 	}
 	close(pfds[0]);
@@ -61,7 +61,7 @@ static int	handle_left_child(t_minishell *mini, int pfds[2], t_parser *left)
 	pid_left = fork();
 	if (pid_left < 0)
 	{
-		perror("fork");
+		perror("SHELL: fork");
 		return (-1);
 	}
 	if (pid_left == 0 && left)
@@ -76,7 +76,7 @@ static int	handle_right_child(t_minishell *mini, int pfds[2], t_parser *right)
 	pid_right = fork();
 	if (pid_right < 0)
 	{
-		perror("fork");
+		perror("SHELL: fork");
 		return (-1);
 	}
 	if (pid_right == 0 && right)

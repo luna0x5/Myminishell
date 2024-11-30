@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 23:38:48 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:52:05 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	create_pipe(int pipefd[2])
 {
 	if (pipe(pipefd) < 0)
 	{
-		perror("Error creating pipe for heredoc");
+		perror("SHELL: pipe: Error creating pipe for heredoc");
 		return (0);
 	}
 	return (1);
@@ -26,12 +26,12 @@ static int	write_to_pipe(int pipefd[2], const char *line)
 {
 	if (write(pipefd[1], line, ft_strlen(line)) < 0)
 	{
-		perror("Error writing to pipe");
+		perror("SHELL: pipe: Error writing to pipe");
 		return (0);
 	}
 	if (write(pipefd[1], "\n", 1) < 0)
 	{
-		perror("Error writing newline to pipe");
+		perror("SHELL: pipe: Error writing newline to pipe");
 		return (0);
 	}
 	return (1);
@@ -41,7 +41,7 @@ static int	handle_duplication(int pipefd[2])
 {
 	if (dup2(pipefd[0], STDIN_FILENO) < 0)
 	{
-		perror("Error duplicating file descriptor for heredoc");
+		perror("SHELL: dup: Error duplicating file descriptor for heredoc");
 		close(pipefd[0]);
 		return (0);
 	}

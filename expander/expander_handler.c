@@ -6,12 +6,19 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 03:19:32 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:22:47 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
 #include <stdio.h>
+void	check_quote(char *arg, int *i, char **result, t_expander *exp)
+{
+	if (ft_isquote(arg[*i]) == 1)
+		handle_single_quote(arg, result, i, 0);
+	else if (ft_isquote(arg[*i]) == 2)
+		handle_double_quote(arg, result, i, exp);
+}
 char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 {
 	int		start;
@@ -19,6 +26,7 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 	char	*expand;
 
 	start = *i;
+	expand = NULL;
 	if (ft_isdigit(arg[*i]) || arg[*i] == '@')
 	{
 		(*i)++;
@@ -29,7 +37,12 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 		(*i)++;
 		return (ft_itoa(exp->exit_s));
 	}
-	while (arg[*i] && ft_isvalid(arg[*i]))
+	if (ft_isquote(arg[*i]))
+	{
+		check_quote(arg, i, &value, exp);
+		return (value);
+	}
+	while (arg[*i] && !ft_isquote(arg[*i]) && arg[*i] != '$' && ft_isvalid(arg[*i]))
 		(*i)++;
 	value = ft_substr(arg, start, *i - start);
 	expand = expand_var(value, exp);
@@ -42,10 +55,15 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp)
 {
+	if (arg[*i + 1] && arg[*i + 1] != '?' && !ft_isquote(arg[*i + 1]) && !ft_isvalid(arg[*i + 1]))
+	{
+		(*i)++;
+		return (ft_strdup("$"));
+	}
 	(*i)++;
 	if (!arg[*i])
 		return (ft_strdup("$"));
-	if (arg[*i] == '$')
+	if (arg[*i] == '$' && arg[*i + 1] && ft_isvalid(arg[*i + 1]))
 	{
 		(*i)++;
 		return (ft_strdup("$"));
@@ -59,14 +77,7 @@ void	update_ident(t_parser *ast, char *result)
 	ast->id->ident = NULL;
 	ast->id->ident = result;
 }
-
-void	check_quote(char *arg, int *i, char **result, t_expander *exp)
-{
-	if (ft_isquote(arg[*i]) == 1)
-		handle_single_quote(arg, result, i, 0);
-	else if (ft_isquote(arg[*i]) == 2)
-		handle_double_quote(arg, result, i, exp);
-}
+#include <stdio.h>
 
 void	process_string(t_parser *ast, t_expander *exp)
 {

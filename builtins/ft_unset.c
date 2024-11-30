@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:37:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/26 23:02:43 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:56:47 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_unset(t_minishell *mini)
 		if (!is_valid_id(mini->args[i]))
 		{
 			ret = 1;
-			write(2, "unset: not a valid identifier\n", 30);
+			write(2, "SHELL: unset: not a valid identifier\n", 37);
 		}
 		else
 			unset_env(mini->exp->env, mini->args[i]);

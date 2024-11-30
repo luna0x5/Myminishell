@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 04:12:19 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:53:03 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	setup_pipe(int pfds[2])
 {
 	if (pipe(pfds) == -1)
 	{
-		perror("pipe");
+		perror("SHELL: pipe");
 		return (-1);
 	}
 	return (0);
@@ -51,7 +51,7 @@ void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
 		mini->s_stdin = dup(STDIN_FILENO);
 		if (!handle_heredoc(node))
 		{
-			perror("Failed to handle heredoc");
+			perror("SHELL: heredoc: Failed to handle heredoc");
 			return ;
 		}
 		dup2(mini->s_stdin, STDIN_FILENO);

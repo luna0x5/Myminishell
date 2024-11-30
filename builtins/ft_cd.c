@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 13:00:47 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:44:30 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:50:19 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	cd_home(t_minishell *mini)
 {
 	if (chdir(mini->home) < 0)
 	{
-		perror("chdir ");
+		perror("SHELL: chdir");
 		return (1);
 	}
 	free(mini->oldpwd);
@@ -32,7 +32,7 @@ static int	cd_pwd(t_minishell *mini)
 
 	if (chdir(mini->oldpwd) < 0)
 	{
-		perror("chdir ");
+		perror("SHELL: chdir");
 		return (1);
 	}
 	tmp = ft_strdup(mini->pwd);
@@ -54,14 +54,14 @@ static int	cd_parent(t_minishell *mini)
 	slash = ft_strrchr(mini->pwd, '/');
 	if (slash == NULL)
 	{
-		perror("cd ..: No parent directory (at root)");
+		write(2, "SHELL: cd ..: No parent directory (at root)\n", 44);
 		return (1);
 	}
 	len = slash - mini->pwd;
 	tmp = ft_substr(mini->pwd, 0, len);
 	if (chdir(tmp) < 0)
 	{
-		perror("chdir ");
+		perror("SHELL: chdir");
 		free(tmp);
 		return (1);
 	}
@@ -80,7 +80,7 @@ static int	cd_chdir(char *path, t_minishell *mini)
 
 	if (chdir(path) < 0)
 	{
-		perror("chdir ");
+		perror("SHELL: chdir");
 		return (1);
 	}
 	free(mini->oldpwd);
@@ -90,7 +90,7 @@ static int	cd_chdir(char *path, t_minishell *mini)
 	mini->pwd = getcwd(cwd, 0);
 	if (!mini->pwd)
 	{
-		perror("getcwd ");
+		perror("SHELL: getcwd");
 		return (1);
 	}
 	return (0);
@@ -112,6 +112,11 @@ int	ft_cd(t_minishell *mini)
 		free(mini->oldpwd);
 		mini->oldpwd = ft_strdup(mini->pwd);
 		i = 0;
+	}
+	else if (!ft_strcmp(mini->args[1], "..."))
+	{
+		write(2, "SHELL: cd: No such file or directory\n", 37);
+		return (1);
 	}
 	else
 		i = cd_chdir(mini->args[1], mini);

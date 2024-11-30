@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:44:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 05:17:57 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:54:41 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	handle_exec_redirections(t_minishell *mini, t_parser *node)
 	status = 0;
 	if (pid == -1)
 	{
-		perror("fork");
+		perror("SHELL: fork");
 		return ;
 	}
 	else if (pid == 0)

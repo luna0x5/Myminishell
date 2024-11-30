@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 11:56:18 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:56:32 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	process_arg(t_minishell *mini, t_expander *exp, char *s)
 		return (0);
 	if (!is_valid_id(node->key))
 	{
-		write(2, "export: not a valid identifier\n", 31);
+		write(2, "SHELL: export: not a valid identifier\n", 38);
 		return (0);
 	}
 	check = ft_strchr(s, '+');

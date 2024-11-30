@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 04:37:15 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/18 00:10:20 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:58:32 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_redir_beg(t_token *tokens)
 {
 	if (tokens && check_redir(tokens->token_type) && !tokens->next)
 	{
-		write(2, "No Redirection File\n", 20);
+		write(2, "SHELL: SYNTAX ERROR: Redirection File\n", 38);
 		return (0);
 	}
 	return (1);
@@ -33,7 +33,7 @@ int	check_pipe_beg(t_token *tokens)
 {
 	if (tokens && *(tokens->token) == '|' && !tokens->next)
 	{
-		write(2, "PIPE in the beginning\n", 22);
+		write(2, "SHELL: SYNTAX ERROR: Pipeline without command\n", 46);
 		return (0);
 	}
 	return (1);
@@ -46,7 +46,7 @@ int	check_syntax(t_token **list)
 	tmp = *list;
 	if (tmp->token_type == PIPE)
 	{
-		write(2, "PIPE in the beginning\n", 22);
+		write(2, "SHELL: SYNTAX ERROR: Pipeline without command\n", 46);
 		token_clear(list);
 		return (0);
 	}

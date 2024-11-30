@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 12:01:41 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 00:32:05 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 		return (0);
 	}
 	expand_ast(mini->ast, mini->exp);
-	print_ast(mini->ast, 0, "ROOT");
+	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
 	free_token_tree(mini, line);
 	return (1);
@@ -110,10 +110,10 @@ int	main(void)
 			build_mini(mini, &line, tmp);
 		}
 		free_line(&line);
-		system("leaks minishell");
+		// system("leaks minishell");
 	}
 	cleanup_mini(mini);
 	rl_clear_history();
-	system("leaks minishell");
+	// system("leaks minishell");
 	return (0);
 }

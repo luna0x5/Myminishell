@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:26:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 11:56:04 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 03:56:16 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	ft_exit(t_minishell *mini)
 	{
 		if (!is_str_nbr(mini->args[1]))
 		{
-			write(2, "exit: numeric argument required\n", 32);
+			write(2, "SHELL: exit: numeric argument required\n", 39);
 			mini->exp->exit_s = 255;
 			exit(mini->exp->exit_s);
 		}
 		if (mini->args[2])
 		{
-			write(2, "exit: too many arguments\n", 25);
+			write(2, "SHELL: exit: too many arguments\n", 32);
 			mini->exp->exit_s = 1;
 			return (1);
 		}
