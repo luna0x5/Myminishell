@@ -6,12 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:08:25 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:17:57 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:54:56 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-#include <stdio.h>
+
 void	handle_single_quote(char *arg, char **result, int *i, int check)
 {
 	int		start;

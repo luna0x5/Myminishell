@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 00:32:05 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:45:52 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 	if (!mini->tokens)
 	{
 		free_line(line);
+		mini->exp->exit_s = 2;
 		return (0);
 	}
 	mini->ast = make_ast(mini->tokens);

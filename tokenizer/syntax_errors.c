@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 04:37:15 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:58:32 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:55:52 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_redir(t_token_type type)
 
 int	check_redir_beg(t_token *tokens)
 {
-	if (tokens && check_redir(tokens->token_type) && !tokens->next)
+	if (tokens && check_redir(tokens->token_type) && ((tokens->next && ft_isoperator(tokens->next->token)) || !tokens->next))
 	{
 		write(2, "SHELL: SYNTAX ERROR: Redirection File\n", 38);
 		return (0);

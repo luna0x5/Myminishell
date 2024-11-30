@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:42:53 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 02:02:31 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:13:44 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*expand_var(char *arg, t_expander *exp)
 	if (!env_var)
 		return (ft_strdup(""));
 	result = ft_strdup(env_var);
-	// free(env_var);
-	// env_var = NULL; // double free in echo "$HOME""$HOME"
 	return (result);
 }
 

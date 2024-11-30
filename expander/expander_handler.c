@@ -6,12 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:22:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:54:47 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-#include <stdio.h>
+
 void	check_quote(char *arg, int *i, char **result, t_expander *exp)
 {
 	if (ft_isquote(arg[*i]) == 1)
@@ -77,7 +77,6 @@ void	update_ident(t_parser *ast, char *result)
 	ast->id->ident = NULL;
 	ast->id->ident = result;
 }
-#include <stdio.h>
 
 void	process_string(t_parser *ast, t_expander *exp)
 {

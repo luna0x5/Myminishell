@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:55:00 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 04:12:50 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	fork_and_exec(char *path, char **args, char **env_2d)
 		{
 			perror("SHELL: execve");
 			free(path);
-			exit(1);
+			exit(127);
 		}
 	}
 	else
@@ -48,6 +48,8 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 		path = ft_strdup(node->args[0]);
 	else
 	{
+		if (!node->args[0][0])
+			return (0);
 		path = get_path(node->args[0]);
 		if (!path)
 		{
@@ -71,7 +73,7 @@ void	exec_no_fork(t_minishell *node, char **env_2d, char *path)
 			free_args(env_2d);
 			perror("SHELL: execve");
 			free(path);
-			exit(1);
+			exit(127);
 		}
 	}
 }

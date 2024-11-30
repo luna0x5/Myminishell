@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:52:05 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 04:15:37 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static int	handle_duplication(int pipefd[2])
 static int	read_input(t_parser *node, char **line)
 {
 	*line = readline("heredoc> ");
-	if (!*line)
+	if (!line || !*line)
 		return (0);
-	if (ft_strcmp(*line, node->right->id->ident) == 0)
+	if (node->right->id->ident && ft_strcmp(*line, node->right->id->ident) == 0)
 	{
 		free(*line);
 		*line = NULL;

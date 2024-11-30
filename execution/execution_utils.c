@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:06:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:36:38 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 18:13:09 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ int	envlen(t_env *env)
 	return (len);
 }
 
+void	free_i(char **env_2d, int i)
+{
+	int j;
+
+	j = 0;
+	while (j != i)
+	{
+		free(env_2d[j]);
+		j++;
+	}
+	free(env_2d);
+}
+
 char	**make_env_2d(t_env *env)
 {
 	char	**env_2d;
@@ -63,8 +76,11 @@ char	**make_env_2d(t_env *env)
 	while (current)
 	{
 		env_2d[i] = ft_strdup(current->data);
-		if (!env_2d[i]) // free until i
+		if (!env_2d[i])
+		{
+			free_i(env_2d, i);
 			return (NULL);
+		}
 		current = current->next;
 		i++;
 	}
