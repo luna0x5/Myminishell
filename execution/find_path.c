@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 12:39:22 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 18:54:26 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 01:41:08 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,21 @@ static char	*find_path(char **dir, char **path, char *cmd)
 	return (NULL);
 }
 
-char	*get_path(char *cmd)
+char	*get_path(char *cmd, t_minishell *mini)
 {
 	char	*path;
 	char	**dir;
 
 	if (!cmd || *cmd == '\0')
 		return (NULL);
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
+	if (!mini->exp->env)
+		path = mini->path;
+	else
+	{
+		path = ft_getenv("PATH", mini->exp);
+		if (!path)
+			return (NULL);
+	}
 	dir = ft_split(path, ':');
 	if (!dir)
 		return (free(cmd), NULL);

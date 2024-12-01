@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 04:15:37 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 12:59:34 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	handle_duplication(int pipefd[2])
 	return (1);
 }
 
-static int	read_input(t_parser *node, char **line)
+int	read_input(t_parser *node, char **line)
 {
 	*line = readline("heredoc> ");
 	if (!line || !*line)
@@ -63,19 +63,21 @@ static int	read_input(t_parser *node, char **line)
 	return (1);
 }
 
-int	handle_heredoc(t_parser *node)
+int	handle_heredoc(t_minishell *mini, t_parser *node)
 {
+	// (void)mini;
 	char	*line;
 	int		pipefd[2];
 
 	line = NULL;
+	mini->is_heredoc = 1;
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, ft_sigquit_handler);
 	if (!create_pipe(pipefd))
 		return (0);
 	while (1)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, ft_sigint_handler_heredoc);
+		// signal(SIGQUIT, ft_sigquit_handler);
 		if (read_input(node, &line) != 1)
 			break ;
 		if (!write_to_pipe(pipefd, line))
@@ -91,3 +93,42 @@ int	handle_heredoc(t_parser *node)
 	}
 	return (close(pipefd[1]), handle_duplication(pipefd));
 }
+
+
+// int handle_heredoc(t_minishell *mini, t_parser *node)
+// {
+// 	(void)node;
+//     char    *line;
+//     int     pipefd[2];
+
+//     line = NULL;
+//     mini->is_heredoc = 1; // Set heredoc mode
+//     signals_init(1);      // Set signal handlers for heredoc
+//     if (!create_pipe(pipefd))
+//         return (0);
+//     while (1)
+//     {
+//         line = readline("heredoc> "); // Read user input for heredoc
+//         if (!line) // Detect Ctrl+D
+//         {
+//             mini->is_heredoc = 0; // Exit heredoc mode
+//             break;
+//         }
+//         if (!*line) // Handle empty input
+//         {
+//             free(line);
+//             continue;
+//         }
+//         if (!write_to_pipe(pipefd, line)) // Write input to pipe
+//         {
+//             free(line);
+//             close(pipefd[1]);
+//             mini->is_heredoc = 0; // Reset heredoc mode
+//             return (0);
+//         }
+//         free(line);
+//     }
+//     mini->is_heredoc = 0; // Reset heredoc mode
+//     signals_init(0);      // Restore default signal handlers
+//     return (close(pipefd[1]), handle_duplication(pipefd));
+// }

@@ -6,15 +6,15 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:44:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:54:41 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 11:30:53 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	single_redirection(t_parser *node)
+int	single_redirection(t_minishell *mini, t_parser *node)
 {
-	if (!handle_type_redirection(node, node->io_type))
+	if (!handle_type_redirection(mini, node, node->io_type))
 		return (0);
 	return (1);
 }
@@ -37,7 +37,7 @@ int	multiple_in_redirections(t_minishell *mini, t_parser *node)
 		{
 			if (!first)
 			{
-				if (!single_redirection(node))
+				if (!single_redirection(mini, node))
 					return (failed_exit_s(&mini->exp->exit_s));
 				first = 1;
 			}
@@ -66,7 +66,7 @@ int	multiple_out_redirections(t_minishell *mini, t_parser *node)
 		{
 			if (!first)
 			{
-				if (!single_redirection(node))
+				if (!single_redirection(mini, node))
 					return (failed_exit_s(&mini->exp->exit_s));
 				first = 1;
 			}

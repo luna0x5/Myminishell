@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:22 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 04:08:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:17:57 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,26 @@ int	handle_cmd_ex(t_parser *ast, t_expander *exp)
 		make_argument(ast, args, current, tmp);
 	}
 	free_args(args);
+	if (ast->id->ident[0] == '\0')
+	{
+		write(2, "SHELL: command not found\n", 25);
+		exp->exit_s = 127;
+		return (0);
+	}
 	return (1);
 }
 
-void	expand_ast(t_parser *ast, t_expander *exp)
+int expand_ast(t_parser *ast, t_expander *exp)
 {
 	if (!ast)
-		return ;
+		return(0);
 	if (ast->id->id_type == CMD)
 		if (!handle_cmd_ex(ast, exp))
-			return ;
+			return(0);
 	if (ast->id->id_type == REDIRECTION && ast->io_type == HEREDOC)
 	{
 		handle_heredoc_ex(ast, exp);
-		return ;
+		return(1);
 	}
 	if (ast->id->id_type == ARG || ast->id->id_type == RFILE)
 	{
@@ -103,4 +109,5 @@ void	expand_ast(t_parser *ast, t_expander *exp)
 	}
 	expand_ast(ast->left, exp);
 	expand_ast(ast->right, exp);
+	return (1);
 }

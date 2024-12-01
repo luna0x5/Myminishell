@@ -6,11 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 18:45:52 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 13:02:20 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+int	heredoc_sig = 0;
 
 const char *n_type(t_identifier type)
 {
@@ -49,15 +50,31 @@ void	free_token_tree(t_minishell *mini, char **line)
 	mini->ast = NULL;
 }
 
-void	signals_init(void)
+// void	signals_init(void)
+// {
+// 	signal(SIGINT, ft_sigint_handler);
+// 	signal(SIGQUIT, ft_sigquit_handler);
+// }
+
+void signals_init(int heredoc_sig)
 {
-	signal(SIGINT, ft_sigint_handler);
-	signal(SIGQUIT, ft_sigquit_handler);
+	(void)heredoc_sig;
+    // if (heredoc_sig)
+    // {
+    //     signal(SIGINT, ft_sigint_handler_heredoc); // Default handler for heredoc
+    //     signal(SIGQUIT, ft_sigquit_handler); // Optional
+	// 	// exit (1);
+    // }
+    // else
+    // {
+        signal(SIGINT, ft_sigint_handler); // Custom SIGINT for shell
+        signal(SIGQUIT, SIG_IGN); // Ignore SIGQUIT
+    // }
 }
+
 
 void	mini_init(t_minishell **mini, char **line)
 {
-	signals_init();
 	*line = NULL;
 	*mini = malloc(sizeof(t_minishell));
 	(*mini)->exp = malloc(sizeof(t_expander));
@@ -65,7 +82,13 @@ void	mini_init(t_minishell **mini, char **line)
 	(*mini)->pwd = ft_strdup(ft_getenv("PWD", (*mini)->exp));
 	(*mini)->oldpwd = ft_strdup(ft_getenv("OLDPWD", (*mini)->exp));
 	(*mini)->home = ft_strdup(ft_getenv("HOME", (*mini)->exp));
+	(*mini)->path = ft_strdup("/bin:/usr/bin:/usr/local/bin"); // need to add other paths
+	(*mini)->args = NULL;
+	(*mini)->ast = NULL;
+	(*mini)->tokens = NULL;
 	(*mini)->exp->exit_s = 0;
+	(*mini)->is_heredoc = 0;
+	signals_init((*mini)->is_heredoc);
 }
 
 int	build_mini(t_minishell *mini, char **line, char *tmp)
@@ -84,9 +107,14 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 		token_clear(&(mini->tokens));
 		return (0);
 	}
-	expand_ast(mini->ast, mini->exp);
+	if (!expand_ast(mini->ast, mini->exp))
+	{
+		free_token_tree(mini, line);
+		return (0);
+	}
 	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
+	// printf("{%d}\n", heredoc);
 	free_token_tree(mini, line);
 	return (1);
 }
@@ -101,16 +129,33 @@ int	main(void)
 	mini_init(&mini, &line);
 	while (1)
 	{
+		heredoc_sig = mini->is_heredoc;
 		line = readline("SHELL:$");
 		tmp = line;
 		if (!tmp)
 			ft_eof_handler();
+		// if (heredoc || mini->exp->exit_s == 130)
+		// {
+		// 	// Reset heredoc state
+		// 	mini->is_heredoc = 0;
+		// 	mini->exp->exit_s = 0;
+		// 	free(line);
+		// 	continue ;
+		// }
 		if (*tmp)
 		{
 			add_history(tmp);
 			build_mini(mini, &line, tmp);
 		}
 		free_line(&line);
+		// if (heredoc || mini->exp->exit_s == 130)
+		// {
+		// 	mini->is_heredoc = 0; // Reset heredoc state
+		// 	mini->exp->exit_s = 0; // Reset exit status
+		// 	if (line) free(line);  // Free the input line if allocated
+		// 	continue;              // Skip execution and show prompt again
+		// }
+
 		// system("leaks minishell");
 	}
 	cleanup_mini(mini);

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 03:19:42 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:18:19 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		count_equal_len(char *data);
 int		count_value_len(char *data);
 
 // the main function of the expander
-void	expand_ast(t_parser *ast, t_expander *exp);
+int	expand_ast(t_parser *ast, t_expander *exp);
 
 // to free 2d strings
 void	free_args(char **args);

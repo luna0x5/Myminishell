@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 04:12:50 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:34:21 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 	{
 		if (!node->args[0][0])
 			return (0);
-		path = get_path(node->args[0]);
+		path = get_path(node->args[0], node);
 		if (!path)
 		{
 			write(2, "SHELL: command not found\n", 25);
@@ -67,7 +67,7 @@ void	exec_no_fork(t_minishell *node, char **env_2d, char *path)
 {
 	if (!execute_builtins(node))
 	{
-		path = get_path(node->args[0]);
+		path = get_path(node->args[0], node);
 		if (execve(path, node->args, env_2d) == -1)
 		{
 			free_args(env_2d);

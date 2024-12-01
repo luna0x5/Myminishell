@@ -28,14 +28,17 @@
 typedef struct s_minishell
 {
 	int			s_stdin;
+	int			is_heredoc;
 	char		*pwd;
 	char		*oldpwd;
 	char		*home;
+	char		*path;
 	char		**args;
 	t_expander	*exp;
 	t_parser	*ast;
 	t_token		*tokens;
 }				t_minishell;
+void signals_init(int heredoc);
 
 // execution of commands functions
 void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
@@ -43,11 +46,14 @@ int		execute_builtins(t_minishell *mini);
 int		fork_and_exec(char *path, char **args, char **env_2d);
 int		exec_simple_cmd(t_minishell *node, char **env_2d);
 void	exec_no_fork(t_minishell *node, char **env_2d, char *path);
-char	*get_path(char *cmd);
+char	*get_path(char *cmd, t_minishell *mini);
 int		get_exit_status(int status);
 t_env	*make_env(void);
 int		count_arg(t_parser *ast);
 char	**make_env_2d(t_env *env);
+
+
+void	ft_sigint_handler_heredoc(int num);
 
 // Builtins functions
 int		ft_env(t_minishell *mini);
@@ -70,10 +76,10 @@ void	handle_exec_redirections(t_minishell *mini, t_parser *node);
 int		handle_input(t_parser *node);
 int		handle_output(t_parser *node);
 int		handle_append(t_parser *node);
-int		handle_heredoc(t_parser *node);
+int		handle_heredoc(t_minishell *mini, t_parser *node);
 int		open_out(t_parser *n);
 int		open_append(t_parser *n);
-int		handle_type_redirection(t_parser *node, t_red_type type);
+int		handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type);
 void	find_execute_cmd(t_minishell *mini, t_parser *node);
 int		open_in_files(t_minishell *mini, t_parser *node);
 int		open_out_files(t_minishell *mini, t_parser *node);
@@ -92,6 +98,8 @@ void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
 void	ft_sigint_handler(int num);
 void	ft_eof_handler(void);
 void	ft_sigquit_handler(int num);
+void	ft_sigint_handler_heredoc(int num);
+
 
 // the main function of the executer
 void	executer(t_minishell *mini);
