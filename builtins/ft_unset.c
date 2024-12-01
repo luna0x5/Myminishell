@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:37:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:56:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:31:29 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	unset_env(t_env *env, char *key)
 	t_env	*tmp;
 
 	prev = env;
+	if (!env)
+		return ;
 	while (prev->next && ft_strcmp(prev->next->key, key))
 		prev = prev->next;
 	if (prev->next)

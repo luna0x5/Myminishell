@@ -28,7 +28,6 @@
 typedef struct s_minishell
 {
 	int			s_stdin;
-	int			is_heredoc;
 	char		*pwd;
 	char		*oldpwd;
 	char		*home;
@@ -38,7 +37,6 @@ typedef struct s_minishell
 	t_parser	*ast;
 	t_token		*tokens;
 }				t_minishell;
-void signals_init(int heredoc);
 
 // execution of commands functions
 void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
@@ -52,9 +50,6 @@ t_env	*make_env(void);
 int		count_arg(t_parser *ast);
 char	**make_env_2d(t_env *env);
 
-
-void	ft_sigint_handler_heredoc(int num);
-
 // Builtins functions
 int		ft_env(t_minishell *mini);
 int		ft_echo(t_minishell *mini);
@@ -63,7 +58,7 @@ int		ft_pwd(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		is_valid_id(char *key);
 int		ft_cd(t_minishell *mini);
-void	update_env(t_minishell *mini, const char *key, const char *new_value);
+void	update_env(t_minishell *mini, char *key, char *new_value);
 int		ft_unset(t_minishell *mini);
 t_env	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_env **lst, t_env *new);
@@ -71,12 +66,15 @@ char	*extract_env_key(char *data);
 int		check_long(char *str);
 int		is_str_nbr(char *str);
 
+
+void	signals_init(t_minishell *mini);
+
 // redirections functions
 void	handle_exec_redirections(t_minishell *mini, t_parser *node);
 int		handle_input(t_parser *node);
 int		handle_output(t_parser *node);
 int		handle_append(t_parser *node);
-int		handle_heredoc(t_minishell *mini, t_parser *node);
+int		handle_heredoc(t_parser *node);
 int		open_out(t_parser *n);
 int		open_append(t_parser *n);
 int		handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type);
@@ -99,6 +97,7 @@ void	ft_sigint_handler(int num);
 void	ft_eof_handler(void);
 void	ft_sigquit_handler(int num);
 void	ft_sigint_handler_heredoc(int num);
+void	ft_sigint_her(int num);
 
 
 // the main function of the executer

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 17:54:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:44:16 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	check_quote(char *arg, int *i, char **result, t_expander *exp)
 	else if (ft_isquote(arg[*i]) == 2)
 		handle_double_quote(arg, result, i, exp);
 }
+
 char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 {
 	int		start;
@@ -27,6 +28,7 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 
 	start = *i;
 	expand = NULL;
+	value = NULL;
 	if (ft_isdigit(arg[*i]) || arg[*i] == '@')
 	{
 		(*i)++;
@@ -42,7 +44,8 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 		check_quote(arg, i, &value, exp);
 		return (value);
 	}
-	while (arg[*i] && !ft_isquote(arg[*i]) && arg[*i] != '$' && ft_isvalid(arg[*i]))
+	while (arg[*i] && !ft_isquote(arg[*i]) && arg[*i] != '$'
+		&& ft_isvalid(arg[*i]))
 		(*i)++;
 	value = ft_substr(arg, start, *i - start);
 	expand = expand_var(value, exp);
@@ -55,7 +58,8 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp)
 {
-	if (arg[*i + 1] && arg[*i + 1] != '?' && !ft_isquote(arg[*i + 1]) && !ft_isvalid(arg[*i + 1]))
+	if (arg[*i + 1] && arg[*i + 1] != '?' && !ft_isquote(arg[*i + 1])
+		&& !ft_isvalid(arg[*i + 1]))
 	{
 		(*i)++;
 		return (ft_strdup("$"));
@@ -96,7 +100,9 @@ void	process_string(t_parser *ast, t_expander *exp)
 			expand = NULL;
 		}
 		else if (ft_isquote(ast->id->ident[i]))
+		{
 			check_quote(ast->id->ident, &i, &result, exp);
+		}
 		else
 			append_single_char(ast->id->ident, &i, &result);
 	}

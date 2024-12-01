@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:06:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 18:13:09 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:23:48 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	envlen(t_env *env)
 
 void	free_i(char **env_2d, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (j != i)

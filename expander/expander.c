@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:22 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 19:17:57 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:43:40 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,17 @@ int	handle_cmd_ex(t_parser *ast, t_expander *exp)
 	return (1);
 }
 
-int expand_ast(t_parser *ast, t_expander *exp)
+int	expand_ast(t_parser *ast, t_expander *exp)
 {
 	if (!ast)
-		return(0);
+		return (0);
 	if (ast->id->id_type == CMD)
 		if (!handle_cmd_ex(ast, exp))
-			return(0);
+			return (0);
 	if (ast->id->id_type == REDIRECTION && ast->io_type == HEREDOC)
 	{
 		handle_heredoc_ex(ast, exp);
-		return(1);
+		return (1);
 	}
 	if (ast->id->id_type == ARG || ast->id->id_type == RFILE)
 	{

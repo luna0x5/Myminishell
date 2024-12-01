@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 03:56:32 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 16:42:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ static void	add_value(t_env *env, t_env *node)
 		{
 			value = ft_strjoin(current->value, node->value);
 			free(current->value);
-			current->value = value;
+			current->value = ft_strdup(value);
+			free(value);
+			value = NULL;
 			free(current->data);
 			tmp = ft_strjoin(current->key, "=");
 			current->data = ft_strjoin(tmp, current->value);
@@ -106,7 +108,13 @@ static int	process_arg(t_minishell *mini, t_expander *exp, char *s)
 	else if (check && check[1] && check[1] == '=')
 		add_value(exp->env, node);
 	else
+	{
 		update_env(mini, node->key, node->value);
+		free(node->data);
+		node->data = NULL;
+		free(node);
+		node = NULL;
+	}
 	return (1);
 }
 

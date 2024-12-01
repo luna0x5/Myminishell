@@ -6,13 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/28 11:45:38 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:23:15 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	update_env(t_minishell *mini, const char *key, const char *new_value)
+void	update_env(t_minishell *mini, char *key, char *new_value)
 {
 	t_env		*node;
 	char		*tmp;

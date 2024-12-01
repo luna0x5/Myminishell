@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 11:28:00 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:39:05 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
 	if (node->id->id_type == REDIRECTION && node->io_type == HEREDOC)
 	{
 		mini->s_stdin = dup(STDIN_FILENO);
-		if (!handle_heredoc(mini, node))
+		if (!handle_heredoc(node))
 		{
 			perror("SHELL: heredoc: Failed to handle heredoc");
 			return ;

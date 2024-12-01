@@ -6,41 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 13:02:20 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:38:57 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-int	heredoc_sig = 0;
 
-const char *n_type(t_identifier type)
-{
-	switch (type)
-	{
-		case CMD: return "CMD";
-		case ARG: return "ARG";
-		case REDIRECTION: return "REDIRECTION";
-		case RFILE: return "RFILE";
-		case PIPELINE: return "PIPE";
-		default: return "UNKNOWN";
-	}
-}
-void print_ast(t_parser *node, int level, char *position)
-{
-	if (node == NULL)
-	{
-		printf("%*s%s: NULL\n", level * 4, "", position);
-		return;
-	}
-	printf("%*s%s: %s", level * 4, "", position, n_type(node->id->id_type));
-	if (node->id->id_type == REDIRECTION)
-		printf(": %d", node->io_type);
-	if (node->id->ident)
-		printf(": %s", node->id->ident);
-	printf("\n");
-	print_ast(node->left, level + 1, "Left");
-	print_ast(node->right, level + 1, "Right");
-}
 void	free_token_tree(t_minishell *mini, char **line)
 {
 	free_line(line);
@@ -50,28 +21,12 @@ void	free_token_tree(t_minishell *mini, char **line)
 	mini->ast = NULL;
 }
 
-// void	signals_init(void)
-// {
-// 	signal(SIGINT, ft_sigint_handler);
-// 	signal(SIGQUIT, ft_sigquit_handler);
-// }
-
-void signals_init(int heredoc_sig)
+void	signals_init(t_minishell *mini)
 {
-	(void)heredoc_sig;
-    // if (heredoc_sig)
-    // {
-    //     signal(SIGINT, ft_sigint_handler_heredoc); // Default handler for heredoc
-    //     signal(SIGQUIT, ft_sigquit_handler); // Optional
-	// 	// exit (1);
-    // }
-    // else
-    // {
-        signal(SIGINT, ft_sigint_handler); // Custom SIGINT for shell
-        signal(SIGQUIT, SIG_IGN); // Ignore SIGQUIT
-    // }
+	(void)mini;
+	signal(SIGINT, ft_sigint_handler);
+	signal(SIGQUIT, ft_sigquit_handler);
 }
-
 
 void	mini_init(t_minishell **mini, char **line)
 {
@@ -82,13 +37,15 @@ void	mini_init(t_minishell **mini, char **line)
 	(*mini)->pwd = ft_strdup(ft_getenv("PWD", (*mini)->exp));
 	(*mini)->oldpwd = ft_strdup(ft_getenv("OLDPWD", (*mini)->exp));
 	(*mini)->home = ft_strdup(ft_getenv("HOME", (*mini)->exp));
-	(*mini)->path = ft_strdup("/bin:/usr/bin:/usr/local/bin"); // need to add other paths
+	(*mini)->path = ft_strdup("/Users/hmoukit/bin:/Users/hmoukit/homebrew/bin"
+			":/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+			":/Library/Apple/usr/bin:/Users/hmoukit/bin"
+			":/Users/hmoukit/homebrew/bin");
 	(*mini)->args = NULL;
 	(*mini)->ast = NULL;
 	(*mini)->tokens = NULL;
 	(*mini)->exp->exit_s = 0;
-	(*mini)->is_heredoc = 0;
-	signals_init((*mini)->is_heredoc);
+	signals_init(*mini);
 }
 
 int	build_mini(t_minishell *mini, char **line, char *tmp)
@@ -112,9 +69,7 @@ int	build_mini(t_minishell *mini, char **line, char *tmp)
 		free_token_tree(mini, line);
 		return (0);
 	}
-	// print_ast(mini->ast, 0, "ROOT");
 	executer(mini);
-	// printf("{%d}\n", heredoc);
 	free_token_tree(mini, line);
 	return (1);
 }
@@ -129,37 +84,21 @@ int	main(void)
 	mini_init(&mini, &line);
 	while (1)
 	{
-		heredoc_sig = mini->is_heredoc;
 		line = readline("SHELL:$");
 		tmp = line;
 		if (!tmp)
 			ft_eof_handler();
-		// if (heredoc || mini->exp->exit_s == 130)
-		// {
-		// 	// Reset heredoc state
-		// 	mini->is_heredoc = 0;
-		// 	mini->exp->exit_s = 0;
-		// 	free(line);
-		// 	continue ;
-		// }
 		if (*tmp)
 		{
 			add_history(tmp);
 			build_mini(mini, &line, tmp);
 		}
+		signal(SIGINT, ft_sigint_handler);
 		free_line(&line);
-		// if (heredoc || mini->exp->exit_s == 130)
-		// {
-		// 	mini->is_heredoc = 0; // Reset heredoc state
-		// 	mini->exp->exit_s = 0; // Reset exit status
-		// 	if (line) free(line);  // Free the input line if allocated
-		// 	continue;              // Skip execution and show prompt again
-		// }
-
-		// system("leaks minishell");
+		system("leaks minishell");
 	}
 	cleanup_mini(mini);
 	rl_clear_history();
-	// system("leaks minishell");
+	system("leaks minishell");
 	return (0);
 }

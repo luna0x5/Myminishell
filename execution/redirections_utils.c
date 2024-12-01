@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 23:46:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 11:29:21 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:26:41 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type)
 {
+	(void)mini;
 	if (type == INPUT)
 	{
 		if (!handle_input(node))
@@ -31,7 +32,7 @@ int	handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type)
 	}
 	else if (type == HEREDOC)
 	{
-		if (!handle_heredoc(mini, node))
+		if (!handle_heredoc(node))
 			return (0);
 	}
 	return (1);
@@ -65,7 +66,7 @@ int	open_in_files(t_minishell *mini, t_parser *node)
 		}
 		else if (node->io_type == HEREDOC)
 		{
-			if (!handle_heredoc(mini, node))
+			if (!handle_heredoc(node))
 				return (0);
 			open_in_files(mini, node->left);
 		}
