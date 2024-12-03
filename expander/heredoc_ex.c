@@ -3,73 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_ex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoukit <hmoukit@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 01:49:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/11 18:30:37 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/02 20:24:01 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-
-static void	check_sign_quote(char *arg, int *i, int *quote)
-{
-	if (arg[0] == '$' && arg[1] == '\'')
-	{
-		*quote = 1;
-		*i = 2;
-	}
-	else if (arg[0] == '$' && arg[1] == '"')
-	{
-		*quote = 2;
-		*i = 2;
-	}
-	else
-	{
-		*quote = ft_isquote(arg[*i]);
-		if (*quote)
-			(*i)++;
-	}
-}
-
-static char	*remove_quotes(char *arg)
+#include <stdio.h>
+char	*remove_quotes(char	*delim)
 {
 	char	*unquoted;
-	int		quote;
 	int		i;
-	int		j;
+	int		quote_type;
 
-	if (!arg)
-		return (NULL);
-	unquoted = malloc(ft_strlen(arg) + 1);
-	if (!unquoted)
-		return (NULL);
-	i = 0;
-	j = 0;
-	check_sign_quote(arg, &i, &quote);
-	while (arg[i])
+	i = 1;
+	quote_type = ft_isquote(*delim);
+	if (quote_type == 0)
 	{
-		if ((quote == 1 && arg[i] == '\'') || (quote == 2 && arg[i] == '"'))
-			break ;
-		else
-			unquoted[j++] = arg[i++];
+		unquoted = ft_strdup(delim);
+		return (unquoted);
 	}
-	unquoted[j] = '\0';
-	free(arg);
-	arg = NULL;
+	while (delim[i])
+	{
+		if (quote_type == 1 && delim[i] == '\'')
+			break ;
+		if (quote_type == 2 && delim[i] == '"')
+			break ;
+		i++;
+	}
+	unquoted = ft_substr(delim, 1, i - 1);
 	return (unquoted);
+}
+
+char	*get_expanded(t_parser *node, int *i, t_expander *exp)
+{
+	char	*expand;
+	char	*value;
+	int		start;
+
+	start = ++(*i);
+	while (node->id->ident[*i] && ft_isvalid(node->id->ident[*i]))
+		(*i)++;
+	value = ft_substr(node->id->ident, start, *i - start);
+	expand = expand_var(value, exp);
+	free(value);
+	value = NULL;
+	if (expand)
+		return (expand);
+	return (ft_strdup(""));
+}
+
+void	heredoc_expand_helper(t_parser *node, char *result)
+{
+	free(node->id->ident);
+	node->id->ident = NULL;
+	if (!result)
+	{
+		node->id->ident = ft_strdup("");
+		return ;
+	}
+	node->id->ident = ft_strdup(result);
+	free(result);
+	result = NULL;
+}
+
+void	heredoc_expand(t_parser *node, t_expander *exp)
+{
+	char	*expanded;
+	char	*result;
+	int		i;
+
+	i = 0;
+	expanded = NULL;
+	result = NULL;
+	if (ft_isquote(node->id->ident[i]) == 1)
+		return ;
+	while (node->id->ident[i])
+	{
+		if (node->id->ident[i] == '$' && ft_isvalid(node->id->ident[i + 1]))
+		{
+			expanded = get_expanded(node, &i, exp);
+			result = append_string(result, expanded);
+		}
+		else if (node->id->ident[i] != '$' || (node->id->ident[i] == '$' && !ft_isvalid(node->id->ident[i + 1])))
+			append_single_char(node->id->ident, &i, &result);
+		else
+			i++;
+	}
+	heredoc_expand_helper(node, result);
 }
 
 void	handle_heredoc_ex(t_parser *ast, t_expander *exp)
 {
-	char	*unquoted;
-
-	if (ast->right && ast->right->id)
-	{
-		unquoted = remove_quotes(ast->right->id->ident);
-		if (unquoted)
-			ast->right->id->ident = unquoted;
-	}
 	if (ast->left)
 	{
 		ast = ast->left;

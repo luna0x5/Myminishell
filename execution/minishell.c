@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 17:38:57 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:30:24 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	free_token_tree(t_minishell *mini, char **line)
 	free_tree(mini->ast);
 	free(mini->ast);
 	mini->ast = NULL;
-}
-
-void	signals_init(t_minishell *mini)
-{
-	(void)mini;
-	signal(SIGINT, ft_sigint_handler);
-	signal(SIGQUIT, ft_sigquit_handler);
 }
 
 void	mini_init(t_minishell **mini, char **line)
@@ -45,7 +38,8 @@ void	mini_init(t_minishell **mini, char **line)
 	(*mini)->ast = NULL;
 	(*mini)->tokens = NULL;
 	(*mini)->exp->exit_s = 0;
-	signals_init(*mini);
+	signal(SIGINT, ft_sigint_handler);
+	signal(SIGQUIT, ft_sigquit_handler);
 }
 
 int	build_mini(t_minishell *mini, char **line, char *tmp)
@@ -93,12 +87,9 @@ int	main(void)
 			add_history(tmp);
 			build_mini(mini, &line, tmp);
 		}
-		signal(SIGINT, ft_sigint_handler);
 		free_line(&line);
-		system("leaks minishell");
 	}
 	cleanup_mini(mini);
 	rl_clear_history();
-	system("leaks minishell");
 	return (0);
 }

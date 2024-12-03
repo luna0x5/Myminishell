@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:42:53 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 18:13:44 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:18:20 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ char	*append_string(char *result, const char *to_append)
 	char	*new_result;
 
 	new_result = ft_strjoin(result, to_append);
-	free(result);
-	result = NULL;
+	if (result)
+	{
+		free(result);
+		result = NULL;
+	}
 	return (new_result);
 }
 
@@ -51,4 +54,12 @@ void	append_single_char(char *arg, int *i, char **result)
 	single_char[1] = '\0';
 	*result = append_string(*result, single_char);
 	(*i)++;
+}
+
+void	check_quote(char *arg, int *i, char **result, t_expander *exp)
+{
+	if (ft_isquote(arg[*i]) == 1)
+		handle_single_quote(arg, result, i, 0);
+	else if (ft_isquote(arg[*i]) == 2)
+		handle_double_quote(arg, result, i, exp);
 }

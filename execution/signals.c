@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 04:35:00 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 16:15:08 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:06:43 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,10 @@ void	ft_sigint_handler(int num)
 	rl_redisplay();
 }
 
-void	ft_sigint_her(int num)
-{
-	(void)num;
-	rl_redisplay();
-}
-
 void	ft_sigint_handler_heredoc(int num)
 {
 	(void)num;
-	exit (1);
+	exit(1);
 }
 
 void	ft_sigquit_handler(int num)

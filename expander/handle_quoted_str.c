@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:08:25 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 17:54:16 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:43:23 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	handle_single_quote(char *arg, char **result, int *i, int check)
 	if (check)
 		new_val = ft_substr(arg, start, (*i) - start + 1);
 	val = *result;
-	printf("val ===== {%s}\n", val);
-	printf("ne")
 	*result = ft_strjoin(val, new_val);
 	free(new_val);
 	new_val = NULL;

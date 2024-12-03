@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 17:23:59 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:14:53 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,19 @@ static int	create_pipe(int pipefd[2])
 	return (1);
 }
 
-static int	write_to_pipe(int pipefd[2], const char *line)
+static int	write_to_pipe(int pipefd[2], char *line, t_expander *exp, int i)
 {
-	if (write(pipefd[1], line, ft_strlen(line)) < 0)
+	t_parser	*node;
+
+	node = malloc(sizeof(t_parser));
+	node->id = malloc(sizeof(t_build_id));
+	node->id->id_type = ARG;
+	node->id->ident = ft_strdup(line);
+	node->left = NULL;
+	node->right = NULL;
+	if (i != 2)
+		heredoc_expand(node ,exp);
+	if (write(pipefd[1], node->id->ident, ft_strlen(node->id->ident)) < 0)
 	{
 		perror("SHELL: pipe: Error writing to pipe");
 		return (0);
@@ -34,6 +44,9 @@ static int	write_to_pipe(int pipefd[2], const char *line)
 		perror("SHELL: pipe: Error writing newline to pipe");
 		return (0);
 	}
+	free(node->id->ident);
+	free(node->id);
+	free(node);
 	return (1);
 }
 
@@ -51,39 +64,51 @@ static int	handle_duplication(int pipefd[2])
 
 int	read_input(t_parser *node, char **line)
 {
+	int	i;
+	char	*unquoted;
+
+	i = 1;
+	unquoted = NULL;
 	*line = readline("heredoc> ");
-	if (!line || !*line)
+	if (!*line)
 		return (0);
-	if (node->right->id->ident && ft_strcmp(*line, node->right->id->ident) == 0)
+	if (ft_isquote(*(node->right->id->ident)))
+		i = 2;
+	unquoted = remove_quotes(node->right->id->ident);
+	if (unquoted && !ft_strcmp(*line, unquoted))
 	{
 		free(*line);
 		*line = NULL;
+		free(unquoted);
+		unquoted = NULL;
 		return (-1);
 	}
-	return (1);
+	free(unquoted);
+	unquoted = NULL;
+	return (i);
 }
 
-int	handle_heredoc(t_parser *node)
+int	handle_heredoc(t_parser *node, t_expander *exp)
 {
 	char	*line;
 	int		pipefd[2];
+	int		check;
 
 	line = NULL;
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, ft_sigint_handler_heredoc);
+	signal(SIGQUIT, ft_sigquit_handler);
 	if (!create_pipe(pipefd))
 		return (0);
 	while (1)
 	{
-		signal(SIGINT, ft_sigint_handler_heredoc);
-		signal(SIGQUIT, ft_sigquit_handler);
-		if (read_input(node, &line) != 1)
+		check = read_input(node, &line);
+		if (check == -1 || check == 0)
 			break ;
-		if (!write_to_pipe(pipefd, line))
+		if (!write_to_pipe(pipefd, line, exp, check))
 		{
 			free(line);
 			line = NULL;
 			close(pipefd[1]);
-			signal(SIGINT, SIG_DFL);
 			return (0);
 		}
 		free(line);

@@ -66,15 +66,12 @@ char	*extract_env_key(char *data);
 int		check_long(char *str);
 int		is_str_nbr(char *str);
 
-
-void	signals_init(t_minishell *mini);
-
 // redirections functions
 void	handle_exec_redirections(t_minishell *mini, t_parser *node);
 int		handle_input(t_parser *node);
 int		handle_output(t_parser *node);
 int		handle_append(t_parser *node);
-int		handle_heredoc(t_parser *node);
+int		handle_heredoc(t_parser *node, t_expander *exp);
 int		open_out(t_parser *n);
 int		open_append(t_parser *n);
 int		handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type);
@@ -93,12 +90,10 @@ int		setup_pipe(int pfds[2]);
 void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);
 
 // the signal handlers
-void	ft_sigint_handler(int num);
-void	ft_eof_handler(void);
-void	ft_sigquit_handler(int num);
 void	ft_sigint_handler_heredoc(int num);
-void	ft_sigint_her(int num);
-
+void	ft_sigint_handler(int num);
+void	ft_sigquit_handler(int num);
+void	ft_eof_handler(void);
 
 // the main function of the executer
 void	executer(t_minishell *mini);

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 19:18:19 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:26:51 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,17 @@ void	append_single_char(char *arg, int *i, char **result);
 char	*get_value(char *data);
 char	*ft_getenv(char *name, t_expander *exp);
 char	*expand_var(char *arg, t_expander *exp);
+void	check_quote(char *arg, int *i, char **result, t_expander *exp);
 
 // the expander handlers
+void	heredoc_expand(t_parser *node, t_expander *exp);
+char	*remove_quotes(char	*delim);
 void	handle_heredoc_ex(t_parser *ast, t_expander *exp);
 char	*handle_variable_expansion(char *arg, int *i, t_expander *exp);
 void	handle_single_quote(char *arg, char **result, int *i, int check);
 void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp);
 void	process_string(t_parser *ast, t_expander *exp);
+
 
 // calculating the len of the key and the value
 int		count_equal_len(char *data);
