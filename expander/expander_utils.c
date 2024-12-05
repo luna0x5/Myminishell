@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:42:53 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:18:20 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_isvalid(char c)
 	return (0);
 }
 
-char	*expand_var(char *arg, t_expander *exp)
+char	*expand_var(char *arg, t_exp *exp)
 {
 	char	*env_var;
 	char	*result;
@@ -56,7 +56,7 @@ void	append_single_char(char *arg, int *i, char **result)
 	(*i)++;
 }
 
-void	check_quote(char *arg, int *i, char **result, t_expander *exp)
+void	check_quote(char *arg, int *i, char **result, t_exp *exp)
 {
 	if (ft_isquote(arg[*i]) == 1)
 		handle_single_quote(arg, result, i, 0);

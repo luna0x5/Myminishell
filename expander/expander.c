@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:22 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:24:23 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,14 @@ int	make_argument(t_parser *ast, char **args, t_parser *current, t_parser*tmp )
 	return (1);
 }
 
-int	cmd_not_found(t_expander *exp)
+int	cmd_not_found(t_exp *exp)
 {
 	write(2, "SHELL: command not found\n", 25);
 	exp->exit_s = 127;
 	return (0);
 }
 
-
-int	handle_cmd_ex(t_parser *ast, t_expander *exp)
+int	handle_cmd_ex(t_parser *ast, t_exp *exp)
 {
 	char		**args;
 	t_parser	*current;
@@ -94,7 +93,7 @@ int	handle_cmd_ex(t_parser *ast, t_expander *exp)
 	return (1);
 }
 
-int	expand_ast(t_parser *ast, t_expander *exp)
+int	expand_ast(t_parser *ast, t_exp *exp)
 {
 	if (!ast)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:12:24 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:26:51 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:43:29 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ typedef struct s_env
 }					t_env;
 
 // the structure used in expanding
-typedef struct s_expander
+typedef struct s_exp
 {
 	t_env			*env;
 	unsigned char	exit_s;
-}					t_expander;
+}					t_exp;
 
 // check if the character is a valid character for expanding
 int		ft_isvalid(char c);
@@ -40,26 +40,25 @@ void	append_single_char(char *arg, int *i, char **result);
 
 // utils used in expanding
 char	*get_value(char *data);
-char	*ft_getenv(char *name, t_expander *exp);
-char	*expand_var(char *arg, t_expander *exp);
-void	check_quote(char *arg, int *i, char **result, t_expander *exp);
+char	*ft_getenv(char *name, t_exp *exp);
+char	*expand_var(char *arg, t_exp *exp);
+void	check_quote(char *arg, int *i, char **result, t_exp *exp);
 
 // the expander handlers
-void	heredoc_expand(t_parser *node, t_expander *exp);
+void	heredoc_expand(t_parser *node, t_exp *exp);
 char	*remove_quotes(char	*delim);
-void	handle_heredoc_ex(t_parser *ast, t_expander *exp);
-char	*handle_variable_expansion(char *arg, int *i, t_expander *exp);
+void	handle_heredoc_ex(t_parser *ast, t_exp *exp);
+char	*handle_variable_expansion(char *arg, int *i, t_exp *exp);
 void	handle_single_quote(char *arg, char **result, int *i, int check);
-void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp);
-void	process_string(t_parser *ast, t_expander *exp);
-
+void	handle_double_quote(char *arg, char **result, int *i, t_exp *exp);
+void	process_string(t_parser *ast, t_exp *exp);
 
 // calculating the len of the key and the value
 int		count_equal_len(char *data);
 int		count_value_len(char *data);
 
 // the main function of the expander
-int	expand_ast(t_parser *ast, t_expander *exp);
+int		expand_ast(t_parser *ast, t_exp *exp);
 
 // to free 2d strings
 void	free_args(char **args);

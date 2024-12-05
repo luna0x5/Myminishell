@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:30:24 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:02:31 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void	mini_init(t_minishell **mini, char **line)
 {
 	*line = NULL;
 	*mini = malloc(sizeof(t_minishell));
-	(*mini)->exp = malloc(sizeof(t_expander));
+	(*mini)->exp = malloc(sizeof(t_exp));
 	(*mini)->exp->env = make_env();
 	(*mini)->pwd = ft_strdup(ft_getenv("PWD", (*mini)->exp));
 	(*mini)->oldpwd = ft_strdup(ft_getenv("OLDPWD", (*mini)->exp));
-	(*mini)->home = ft_strdup(ft_getenv("HOME", (*mini)->exp));
 	(*mini)->path = ft_strdup("/Users/hmoukit/bin:/Users/hmoukit/homebrew/bin"
 			":/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 			":/Library/Apple/usr/bin:/Users/hmoukit/bin"

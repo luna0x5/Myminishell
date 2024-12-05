@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:14:53 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:42:36 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	create_pipe(int pipefd[2])
 	return (1);
 }
 
-static int	write_to_pipe(int pipefd[2], char *line, t_expander *exp, int i)
+static int	write_to_pipe(int pipefd[2], char *line, t_exp *exp, int i)
 {
 	t_parser	*node;
 
@@ -33,7 +33,7 @@ static int	write_to_pipe(int pipefd[2], char *line, t_expander *exp, int i)
 	node->left = NULL;
 	node->right = NULL;
 	if (i != 2)
-		heredoc_expand(node ,exp);
+		heredoc_expand(node, exp);
 	if (write(pipefd[1], node->id->ident, ft_strlen(node->id->ident)) < 0)
 	{
 		perror("SHELL: pipe: Error writing to pipe");
@@ -64,7 +64,7 @@ static int	handle_duplication(int pipefd[2])
 
 int	read_input(t_parser *node, char **line)
 {
-	int	i;
+	int		i;
 	char	*unquoted;
 
 	i = 1;
@@ -88,7 +88,7 @@ int	read_input(t_parser *node, char **line)
 	return (i);
 }
 
-int	handle_heredoc(t_parser *node, t_expander *exp)
+int	handle_heredoc(t_parser *node, t_exp *exp)
 {
 	char	*line;
 	int		pipefd[2];

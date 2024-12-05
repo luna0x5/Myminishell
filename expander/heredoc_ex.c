@@ -6,12 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 01:49:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/02 20:24:01 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:34:59 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-#include <stdio.h>
+
 char	*remove_quotes(char	*delim)
 {
 	char	*unquoted;
@@ -37,7 +37,7 @@ char	*remove_quotes(char	*delim)
 	return (unquoted);
 }
 
-char	*get_expanded(t_parser *node, int *i, t_expander *exp)
+char	*get_expanded(t_parser *node, int *i, t_exp *exp)
 {
 	char	*expand;
 	char	*value;
@@ -69,7 +69,7 @@ void	heredoc_expand_helper(t_parser *node, char *result)
 	result = NULL;
 }
 
-void	heredoc_expand(t_parser *node, t_expander *exp)
+void	heredoc_expand(t_parser *node, t_exp *exp)
 {
 	char	*expanded;
 	char	*result;
@@ -87,7 +87,8 @@ void	heredoc_expand(t_parser *node, t_expander *exp)
 			expanded = get_expanded(node, &i, exp);
 			result = append_string(result, expanded);
 		}
-		else if (node->id->ident[i] != '$' || (node->id->ident[i] == '$' && !ft_isvalid(node->id->ident[i + 1])))
+		else if (node->id->ident[i] != '$' || (node->id->ident[i] == '$'
+				&& !ft_isvalid(node->id->ident[i + 1])))
 			append_single_char(node->id->ident, &i, &result);
 		else
 			i++;
@@ -95,7 +96,7 @@ void	heredoc_expand(t_parser *node, t_expander *exp)
 	heredoc_expand_helper(node, result);
 }
 
-void	handle_heredoc_ex(t_parser *ast, t_expander *exp)
+void	handle_heredoc_ex(t_parser *ast, t_exp *exp)
 {
 	if (ast->left)
 	{

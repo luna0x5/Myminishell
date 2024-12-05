@@ -6,13 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 16:42:35 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_exported_list(t_expander *exp)
+static void	ft_exported_list(t_exp *exp)
 {
 	t_env	*current;
 
@@ -89,7 +89,7 @@ static void	add_value(t_env *env, t_env *node)
 	}
 }
 
-static int	process_arg(t_minishell *mini, t_expander *exp, char *s)
+static int	process_arg(t_minishell *mini, t_exp *exp, char *s)
 {
 	t_env	*node;
 	char	*check;

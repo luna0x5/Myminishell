@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 19:03:01 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 15:00:56 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:02:37 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	cleanup_mini(t_minishell *mini)
 	mini->pwd = NULL;
 	free(mini->oldpwd);
 	mini->oldpwd = NULL;
-	free(mini->home);
-	mini->home = NULL;
 	free(mini->path);
 	mini->path = NULL;
 	free(mini);

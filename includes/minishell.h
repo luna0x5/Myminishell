@@ -27,13 +27,12 @@
 // the main structure of the program
 typedef struct s_minishell
 {
-	int			s_stdin;
 	char		*pwd;
 	char		*oldpwd;
 	char		*home;
 	char		*path;
 	char		**args;
-	t_expander	*exp;
+	t_exp		*exp;
 	t_parser	*ast;
 	t_token		*tokens;
 }				t_minishell;
@@ -71,16 +70,15 @@ void	handle_exec_redirections(t_minishell *mini, t_parser *node);
 int		handle_input(t_parser *node);
 int		handle_output(t_parser *node);
 int		handle_append(t_parser *node);
-int		handle_heredoc(t_parser *node, t_expander *exp);
+int		handle_heredoc(t_parser *node, t_exp *exp);
 int		open_out(t_parser *n);
 int		open_append(t_parser *n);
-int		handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type);
+int		type_redirection(t_minishell *mini, t_parser *node, t_red_type type);
 void	find_execute_cmd(t_minishell *mini, t_parser *node);
 int		open_in_files(t_minishell *mini, t_parser *node);
 int		open_out_files(t_minishell *mini, t_parser *node);
 int		multiple_in_redirections(t_minishell *mini, t_parser *node);
 int		multiple_out_redirections(t_minishell *mini, t_parser *node);
-
 
 // execution of pipelines functions
 void	ft_pipelines(t_minishell *mini, t_parser *ast);

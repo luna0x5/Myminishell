@@ -6,34 +6,36 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:21:19 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
 
-char	*handle_special_cases(char *arg, int *i, t_expander *exp)
+char	*handle_special_cases(char *arg, int *i, t_exp *exp)
 {
+	char	*value;
+
+	value = NULL;
 	if (ft_isdigit(arg[*i]) || arg[*i] == '@')
 	{
 		(*i)++;
 		return (ft_strdup(""));
 	}
-	if (arg[*i] == '?' && exp) 
+	if (arg[*i] == '?' && exp)
 	{
 		(*i)++;
 		return (ft_itoa(exp->exit_s));
 	}
-	if (ft_isquote(arg[*i])) 
+	if (ft_isquote(arg[*i]))
 	{
-		char *value = NULL;
 		check_quote(arg, i, &value, exp);
 		return (value);
 	}
 	return (NULL);
 }
 
-char	*get_expanded_value(char *arg, int *i, t_expander *exp)
+char	*get_expanded_value(char *arg, int *i, t_exp *exp)
 {
 	int		start;
 	char	*value;
@@ -55,43 +57,7 @@ char	*get_expanded_value(char *arg, int *i, t_expander *exp)
 		return (ft_strdup(""));
 }
 
-// char	*get_expanded_value(char *arg, int *i, t_expander *exp)
-// {
-// 	int		start;
-// 	char	*value;
-// 	char	*expand;
-
-// 	start = *i;
-// 	expand = NULL;
-// 	value = NULL;
-// 	if (ft_isdigit(arg[*i]) || arg[*i] == '@')
-// 	{
-// 		(*i)++;
-// 		return (ft_strdup(""));
-// 	}
-// 	if (arg[*i] == '?' && exp)
-// 	{
-// 		(*i)++;
-// 		return (ft_itoa(exp->exit_s));
-// 	}
-// 	if (ft_isquote(arg[*i]))
-// 	{
-// 		check_quote(arg, i, &value, exp);
-// 		return (value);
-// 	}
-// 	while (arg[*i] && !ft_isquote(arg[*i]) && arg[*i] != '$'
-// 		&& ft_isvalid(arg[*i]))
-// 		(*i)++;
-// 	value = ft_substr(arg, start, *i - start);
-// 	expand = expand_var(value, exp);
-// 	free(value);
-// 	if (expand)
-// 		return (expand);
-// 	else
-// 		return (ft_strdup(""));
-// }
-
-char	*handle_variable_expansion(char *arg, int *i, t_expander *exp)
+char	*handle_variable_expansion(char *arg, int *i, t_exp *exp)
 {
 	if (arg[*i + 1] && arg[*i + 1] != '?' && !ft_isquote(arg[*i + 1])
 		&& !ft_isvalid(arg[*i + 1]))
@@ -117,7 +83,7 @@ void	update_ident(t_parser *ast, char *result)
 	ast->id->ident = result;
 }
 
-void	process_string(t_parser *ast, t_expander *exp)
+void	process_string(t_parser *ast, t_exp *exp)
 {
 	int		i;
 	char	*result;

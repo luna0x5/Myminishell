@@ -6,25 +6,11 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 13:00:47 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 17:22:44 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:03:42 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	cd_home(t_minishell *mini)
-{
-	if (chdir(mini->home) < 0)
-	{
-		perror("SHELL: chdir");
-		return (1);
-	}
-	free(mini->oldpwd);
-	mini->oldpwd = ft_strdup(mini->pwd);
-	free(mini->pwd);
-	mini->pwd = ft_strdup(mini->home);
-	return (0);
-}
 
 static int	cd_pwd(t_minishell *mini)
 {
@@ -101,9 +87,7 @@ int	ft_cd(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	if (!mini->args[1] || mini->args[1][0] == '~')
-		i = cd_home(mini);
-	else if (mini->args[1][0] == '-')
+	if (mini->args[1][0] == '-')
 		i = cd_pwd(mini);
 	else if (!ft_strcmp(mini->args[1], ".."))
 		i = cd_parent(mini);

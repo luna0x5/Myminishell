@@ -6,13 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 23:46:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:13:48 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:44:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	handle_type_redirection(t_minishell *mini, t_parser *node, t_red_type type)
+int	type_redirection(t_minishell *mini, t_parser *node, t_red_type type)
 {
 	if (type == INPUT)
 	{

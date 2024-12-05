@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 13:29:43 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/05 14:59:42 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,21 @@ void	wait_for_children(int pid_left, int pid_right, unsigned char *exit)
 	*exit = get_exit_status(status);
 }
 
-// void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
-// {
-// 	if (!node)
-// 		return ;
-// 	if (node->id->id_type == REDIRECTION && node->io_type == HEREDOC)
-// 	{
-// 		mini->s_stdin = dup(STDIN_FILENO);
-// 		if (!handle_heredoc(mini, node, mini->exp))
-// 		{
-// 			perror("SHELL: heredoc: Failed to handle heredoc");
-// 			return ;
-// 		}
-// 		dup2(mini->s_stdin, STDIN_FILENO);
-// 		close(mini->s_stdin);
-// 	}
-// 	traverse_and_handle_heredocs(mini, node->left);
-// 	traverse_and_handle_heredocs(mini, node->right);
-// }
+void	handle_fork(int pid, int *status, t_minishell *mini, t_parser *node)
+{
+	if (pid == 0)
+	{
+		if (!handle_heredoc(node, mini->exp))
+			exit(1);
+		exit(0);
+	}
+	else
+	{
+		waitpid(pid, status, 0);
+		get_exit_status(*status);
+		mini->exp->exit_s = *status;
+	}
+}
 
 void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
 {
@@ -67,30 +64,17 @@ void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
 	int		status;
 
 	if (!node)
-		return;
+		return ;
+	status = 0;
 	if (node->id->id_type == REDIRECTION && node->io_type == HEREDOC)
 	{
-		mini->s_stdin = dup(STDIN_FILENO);
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("SHELL: heredoc: Failed to fork");
-			return;
+			return ;
 		}
-		if (pid == 0) 
-		{
-			if (!handle_heredoc(node, mini->exp))
-				exit(1);
-			exit(0); 
-		}
-		else 
-		{
-			waitpid(pid, &status, 0);
-			get_exit_status(status);
-			mini->exp->exit_s = status;
-		}
-		dup2(mini->s_stdin, STDIN_FILENO); 
-		close(mini->s_stdin);
+		handle_fork(pid, &status, mini, node);
 	}
 	traverse_and_handle_heredocs(mini, node->left);
 	traverse_and_handle_heredocs(mini, node->right);

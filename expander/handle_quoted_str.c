@@ -6,12 +6,12 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:08:25 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/02 14:43:23 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:34:32 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
-#include <stdio.h>
+
 void	handle_single_quote(char *arg, char **result, int *i, int check)
 {
 	int		start;
@@ -48,29 +48,29 @@ int	closer_quote(char *str, int j)
 	return (1);
 }
 
-void	handle_variable_expansion_inside_quotes(char *arg, char **result, int *i, t_expander *exp)
+void	expansion_inside_quotes(char *ar, char **r, int *i, t_exp *exp)
 {
 	char	*expand;
 
-	if (arg[*i + 1] && arg[*i + 1] == '"')
+	if (ar[*i + 1] && ar[*i + 1] == '"')
 	{
-		*result = append_string(*result, "$");
+		*r = append_string(*r, "$");
 		(*i)++;
 		return ;
 	}
-	else if (arg[*i + 1] && arg[*i + 1] == '\'' && closer_quote(arg, *i + 1))
+	else if (ar[*i + 1] && ar[*i + 1] == '\'' && closer_quote(ar, *i + 1))
 	{
 		(*i)++;
-		*result = append_string(*result, "$");
-		handle_single_quote(arg, result, i, 1);
+		*r = append_string(*r, "$");
+		handle_single_quote(ar, r, i, 1);
 		return ;
 	}
-	expand = handle_variable_expansion(arg, i, exp);
-	*result = append_string(*result, expand);
+	expand = handle_variable_expansion(ar, i, exp);
+	*r = append_string(*r, expand);
 	free(expand);
 }
 
-void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp)
+void	handle_double_quote(char *arg, char **result, int *i, t_exp *exp)
 {
 	(*i)++;
 	if (arg[*i] == '"')
@@ -78,7 +78,7 @@ void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp)
 	while (arg[*i] && arg[*i] != '"')
 	{
 		if (arg[*i] == '$')
-			handle_variable_expansion_inside_quotes(arg, result, i, exp);
+			expansion_inside_quotes(arg, result, i, exp);
 		else if (arg[*i] == '\'' && closer_quote(arg, *i))
 			handle_single_quote(arg, result, i, 1);
 		else
@@ -87,40 +87,3 @@ void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp)
 	if (arg[*i])
 		(*i)++;
 }
-// void	handle_double_quote(char *arg, char **result, int *i, t_expander *exp)
-// {
-// 	char	*expand;
-
-// 	(*i)++;
-// 	if (arg[*i] == '"')
-// 		*result = append_string(*result, "");
-// 	while (arg[*i] && arg[*i] != '"')
-// 	{
-// 		if (arg[*i] == '$')
-// 		{
-// 			if (arg[*i + 1] && arg[*i + 1] == '"')
-// 			{
-// 				*result = append_string(*result, "$");
-// 				break ;
-// 			}
-// 			else if (arg[*i + 1] && arg[*i + 1] == '\''
-// 				&& closer_quote(arg, *i + 1))
-// 			{
-// 				(*i)++;
-// 				*result = append_string(*result, "$");
-// 				handle_single_quote(arg, result, i, 1);
-// 				break ;
-// 			}
-// 			expand = handle_variable_expansion(arg, i, exp);
-// 			*result = append_string(*result, expand);
-// 			free(expand);
-// 			expand = NULL;
-// 		}
-// 		else if (arg[*i] == '\'' && closer_quote(arg, *i))
-// 			handle_single_quote(arg, result, i, 1);
-// 		else
-// 			append_single_char(arg, i, result);
-// 	}
-// 	if (arg[*i])
-// 		(*i)++;
-// }

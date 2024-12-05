@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:33:00 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_value(char *data)
 	return (value);
 }
 
-char	*ft_getenv(char *name, t_expander *exp)
+char	*ft_getenv(char *name, t_exp *exp)
 {
 	t_env	*tmp;
 

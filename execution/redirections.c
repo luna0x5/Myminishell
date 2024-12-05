@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:44:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 12:44:30 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:44:52 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	single_redirection(t_minishell *mini, t_parser *node)
 {
-	if (!handle_type_redirection(mini, node, node->io_type))
+	if (!type_redirection(mini, node, node->io_type))
 		return (0);
 	return (1);
 }
