@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:45:40 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*get_value(char *data)
 		i++;
 	value_len = count_value_len(data);
 	value = ft_substr(data, equal_len + i, value_len);
+	if (!value)
+		return (NULL);
 	return (value);
 }
 

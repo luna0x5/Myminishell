@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:50:52 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static void	add_value(t_env *env, t_env *node)
 			value = ft_strjoin(current->value, node->value);
 			free(current->value);
 			current->value = ft_strdup(value);
+			if (!current->value)
+				return ;
 			free(value);
 			value = NULL;
 			free(current->data);

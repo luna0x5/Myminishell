@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:24:43 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/27 01:36:12 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:51:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_env	*ft_lstnew(void *content)
 	if (list == NULL)
 		return (NULL);
 	list -> data = ft_strdup(content);
+	if (!list->data)
+		return (NULL);
 	list -> next = NULL;
 	return (list);
 }
@@ -75,6 +77,8 @@ t_env	*make_env(void)
 
 	env = NULL;
 	i = 0;
+	if (!environ || *environ)
+		return (NULL);
 	while (environ[i])
 	{
 		new_node = ft_lstnew(environ[i]);

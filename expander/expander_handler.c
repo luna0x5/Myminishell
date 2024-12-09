@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 01:31:09 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:32:49 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:52:51 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,17 @@ char	*get_expanded_value(char *arg, int *i, t_exp *exp)
 	while (arg[*i] && ft_isvalid(arg[*i]))
 		(*i)++;
 	value = ft_substr(arg, start, *i - start);
+	if (!value)
+		return (NULL);
 	expand = expand_var(value, exp);
 	free(value);
 	if (expand)
 		return (expand);
 	else
-		return (ft_strdup(""));
+	{
+		expand = ft_strdup("");
+		return (expand);
+	}
 }
 
 char	*handle_variable_expansion(char *arg, int *i, t_exp *exp)
@@ -96,6 +101,8 @@ void	process_string(t_parser *ast, t_exp *exp)
 		if (ast->id->ident[i] == '$')
 		{
 			expand = handle_variable_expansion(ast->id->ident, &i, exp);
+			if (!expand)
+				return ;
 			result = append_string(result, expand);
 			free(expand);
 			expand = NULL;

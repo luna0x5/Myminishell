@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:47:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/11/30 19:34:21 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:51:59 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ int	exec_simple_cmd(t_minishell *node, char **env_2d)
 	int		status;
 
 	if (ft_strchr(node->args[0], '/'))
+	{
 		path = ft_strdup(node->args[0]);
+		if (!path)
+			return (1);
+	}
 	else
 	{
 		if (!node->args[0][0])

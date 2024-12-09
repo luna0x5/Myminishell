@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:42:36 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:51:14 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,15 @@ static int	write_to_pipe(int pipefd[2], char *line, t_exp *exp, int i)
 	t_parser	*node;
 
 	node = malloc(sizeof(t_parser));
+	if (!node)
+		return (0);
 	node->id = malloc(sizeof(t_build_id));
+	if (!node->id)
+		return (0);
 	node->id->id_type = ARG;
 	node->id->ident = ft_strdup(line);
+	if (!node->id->id_type)
+		return (0);
 	node->left = NULL;
 	node->right = NULL;
 	if (i != 2)

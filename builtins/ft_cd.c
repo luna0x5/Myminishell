@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 13:00:47 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/05 15:03:42 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:50:16 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,16 @@ static int	cd_pwd(t_minishell *mini)
 		return (1);
 	}
 	tmp = ft_strdup(mini->pwd);
+	if (!tmp)
+		return (1);
 	free(mini->pwd);
 	mini->pwd = ft_strdup(mini->oldpwd);
+	if (!mini->pwd)
+		return (1);
 	free(mini->oldpwd);
 	mini->oldpwd = ft_strdup(tmp);
-	free(tmp);
-	tmp = NULL;
-	return (0);
-}
-
-static int	cd_parent(t_minishell *mini)
-{
-	int		len;
-	char	*tmp;
-	char	*slash;
-
-	slash = ft_strrchr(mini->pwd, '/');
-	if (slash == NULL)
-	{
-		write(2, "SHELL: cd ..: No parent directory (at root)\n", 44);
+	if (!mini->oldpwd)
 		return (1);
-	}
-	len = slash - mini->pwd;
-	tmp = ft_substr(mini->pwd, 0, len);
-	if (chdir(tmp) < 0)
-	{
-		perror("SHELL: chdir");
-		free(tmp);
-		return (1);
-	}
-	free(mini->oldpwd);
-	mini->oldpwd = ft_strdup(mini->pwd);
-	free(mini->pwd);
-	mini->pwd = ft_strdup(tmp);
 	free(tmp);
 	tmp = NULL;
 	return (0);
@@ -71,6 +48,8 @@ static int	cd_chdir(char *path, t_minishell *mini)
 	}
 	free(mini->oldpwd);
 	mini->oldpwd = ft_strdup(mini->pwd);
+	if (!mini->oldpwd)
+		return (1);
 	free(mini->pwd);
 	cwd = NULL;
 	mini->pwd = getcwd(cwd, 0);
@@ -89,14 +68,6 @@ int	ft_cd(t_minishell *mini)
 	i = 0;
 	if (mini->args[1][0] == '-')
 		i = cd_pwd(mini);
-	else if (!ft_strcmp(mini->args[1], ".."))
-		i = cd_parent(mini);
-	else if (mini->args[1][0] == '.')
-	{
-		free(mini->oldpwd);
-		mini->oldpwd = ft_strdup(mini->pwd);
-		i = 0;
-	}
 	else if (!ft_strcmp(mini->args[1], "..."))
 	{
 		write(2, "SHELL: cd: No such file or directory\n", 37);

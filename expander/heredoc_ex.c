@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 01:49:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:34:59 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:46:56 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*remove_quotes(char	*delim)
 		i++;
 	}
 	unquoted = ft_substr(delim, 1, i - 1);
+	if (!unquoted)
+		return (NULL);
 	return (unquoted);
 }
 
@@ -47,6 +49,8 @@ char	*get_expanded(t_parser *node, int *i, t_exp *exp)
 	while (node->id->ident[*i] && ft_isvalid(node->id->ident[*i]))
 		(*i)++;
 	value = ft_substr(node->id->ident, start, *i - start);
+	if (!value)
+		return (NULL);
 	expand = expand_var(value, exp);
 	free(value);
 	value = NULL;

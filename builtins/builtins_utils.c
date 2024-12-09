@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:48 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 17:23:15 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 04:48:14 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	update_env(t_minishell *mini, char *key, char *new_value)
 			if (node->value)
 				free(node->value);
 			node->value = ft_strdup(new_value);
+			if (!node->value)
+				return ;
 			if (node->data)
 				free(node->data);
 			tmp = ft_strjoin(key, "=");

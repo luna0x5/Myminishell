@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 17:52:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/05 15:02:31 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 01:25:23 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,33 @@ void	free_token_tree(t_minishell *mini, char **line)
 	mini->ast = NULL;
 }
 
-void	mini_init(t_minishell **mini, char **line)
+int	mini_init(t_minishell **mini, char **line)
 {
 	*line = NULL;
 	*mini = malloc(sizeof(t_minishell));
+	if (!*mini)
+		return (0);
 	(*mini)->exp = malloc(sizeof(t_exp));
+	if (!(*mini)->exp)
+		return (0);
 	(*mini)->exp->env = make_env();
+	if (!(*mini)->exp->env)
+		return (0);
 	(*mini)->pwd = ft_strdup(ft_getenv("PWD", (*mini)->exp));
+	if (!(*mini)->pwd)
+		return (0);
 	(*mini)->oldpwd = ft_strdup(ft_getenv("OLDPWD", (*mini)->exp));
+	if (!(*mini)->oldpwd)
+		return (0);
 	(*mini)->path = ft_strdup("/Users/hmoukit/bin:/Users/hmoukit/homebrew/bin"
 			":/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 			":/Library/Apple/usr/bin:/Users/hmoukit/bin"
 			":/Users/hmoukit/homebrew/bin");
+	if (!(*mini)->path)
+		return (0);
 	(*mini)->args = NULL;
 	(*mini)->ast = NULL;
 	(*mini)->tokens = NULL;
-	(*mini)->exp->exit_s = 0;
-	signal(SIGINT, ft_sigint_handler);
-	signal(SIGQUIT, ft_sigquit_handler);
 }
 
 int	build_mini(t_minishell *mini, char **line, char *tmp)
@@ -74,7 +83,14 @@ int	main(void)
 	t_minishell	*mini;
 
 	mini = NULL;
-	mini_init(&mini, &line);
+	if (!mini_init(&mini, &line))
+		return (1);
+	mini->exp->exit_s = 0;
+	mini->args = NULL;
+	mini->ast = NULL;
+	mini->tokens = NULL;
+	signal(SIGINT, ft_sigint_handler);
+	signal(SIGQUIT, ft_sigquit_handler);
 	while (1)
 	{
 		line = readline("SHELL:$");
