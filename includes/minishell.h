@@ -30,12 +30,22 @@ typedef struct s_minishell
 	char		*pwd;
 	char		*oldpwd;
 	char		*home;
-	char		*path;
 	char		**args;
 	t_exp		*exp;
 	t_parser	*ast;
 	t_token		*tokens;
 }				t_minishell;
+// typedef struct s_minishell
+// {
+// 	char		*pwd;
+// 	char		*oldpwd;
+// 	char		*home;
+// 	char		*path;
+// 	char		**args;
+// 	t_exp		*exp;
+// 	t_parser	*ast;
+// 	t_token		*tokens;
+// }				t_minishell;
 
 // execution of commands functions
 void	handle_exec_simple_cmd(t_minishell *node, t_parser *ast, int check);
@@ -82,7 +92,8 @@ int		multiple_out_redirections(t_minishell *mini, t_parser *node);
 
 // execution of pipelines functions
 void	ft_pipelines(t_minishell *mini, t_parser *ast);
-void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
+// void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node);
+void	traverse_and_handle_heredocs(int *j, t_minishell *mini, t_parser *node);
 int		handle_redirections_in_process(t_minishell *mini, t_parser *node);
 int		setup_pipe(int pfds[2]);
 void	wait_for_children(int pid_left, int pid_right, unsigned char *exit);

@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:35:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/05 14:59:42 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 06:48:24 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,40 +42,45 @@ void	wait_for_children(int pid_left, int pid_right, unsigned char *exit)
 	*exit = get_exit_status(status);
 }
 
-void	handle_fork(int pid, int *status, t_minishell *mini, t_parser *node)
+void	handle_fork(int pid, t_minishell *mini, t_parser *node, int j)
 {
+	int		status;
+
+	status = 0;
 	if (pid == 0)
 	{
 		if (!handle_heredoc(node, mini->exp))
 			exit(1);
+		if (node->left && node->left->id->id_type == CMD && !j)
+			handle_exec_simple_cmd(mini, node->left, 1);
 		exit(0);
 	}
 	else
 	{
-		waitpid(pid, status, 0);
-		get_exit_status(*status);
-		mini->exp->exit_s = *status;
+		waitpid(pid, &status, 0);
+		get_exit_status(status);
+		mini->exp->exit_s = status;
 	}
 }
 
-void	traverse_and_handle_heredocs(t_minishell *mini, t_parser *node)
+void	traverse_and_handle_heredocs(int *j, t_minishell *mini, t_parser *node)
 {
 	pid_t	pid;
-	int		status;
 
 	if (!node)
 		return ;
-	status = 0;
 	if (node->id->id_type == REDIRECTION && node->io_type == HEREDOC)
 	{
+		(*j)--;
+		printf("======= %d\n", *j);
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("SHELL: heredoc: Failed to fork");
 			return ;
 		}
-		handle_fork(pid, &status, mini, node);
+		handle_fork(pid, mini, node, *j);
 	}
-	traverse_and_handle_heredocs(mini, node->left);
-	traverse_and_handle_heredocs(mini, node->right);
+	traverse_and_handle_heredocs(j, mini, node->left);
+	traverse_and_handle_heredocs(j, mini, node->right);
 }

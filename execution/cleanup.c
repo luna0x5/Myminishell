@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 19:03:01 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/05 15:02:37 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 00:42:17 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,25 @@ void	cleanup_mini(t_minishell *mini)
 	mini->pwd = NULL;
 	free(mini->oldpwd);
 	mini->oldpwd = NULL;
-	free(mini->path);
-	mini->path = NULL;
 	free(mini);
 	mini = NULL;
 }
+
+// void	cleanup_mini(t_minishell *mini)
+// {
+// 	free_env(&(mini->exp->env));
+// 	mini->exp->env = NULL;
+// 	free(mini->exp);
+// 	mini->exp = NULL;
+// 	free(mini->pwd);
+// 	mini->pwd = NULL;
+// 	free(mini->oldpwd);
+// 	mini->oldpwd = NULL;
+// 	free(mini->path);
+// 	mini->path = NULL;
+// 	free(mini);
+// 	mini = NULL;
+// }
 
 void	free_env_node(t_env *env)
 {

@@ -6,7 +6,7 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/03 16:15:28 by hmoukit           #+#    #+#              #
-#    Updated: 2024/12/01 16:15:40 by hmoukit          ###   ########.fr        #
+#    Updated: 2024/12/09 17:52:11 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 
 # Source files
 T_SOURCES = ./tokenizer/tokenizer.c \

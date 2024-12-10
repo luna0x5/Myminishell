@@ -1,0 +1,11 @@
+Makefile
+builtins
+execution
+expander
+includes
+libft
+minishell
+out
+parser
+todo
+tokenizer

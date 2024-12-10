@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:38:26 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/09 04:50:52 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 06:52:28 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,16 @@ static int	make_export_node(t_env **node, char *s)
 	if (!(*node)->value)
 		return (0);
 	if ((*node)->value[0] == '\0')
+		free_line(&((*node)->value));
+	if (ft_strchr(s, '='))
 	{
-		free((*node)->value);
-		(*node)->value = NULL;
+		tmp = ft_strjoin((*node)->key, "=");
+		(*node)->data = ft_strjoin(tmp, (*node)->value);
+		free(tmp);
+		tmp = NULL;
 	}
-	tmp = ft_strjoin((*node)->key, "=");
-	(*node)->data = ft_strjoin(tmp, (*node)->value);
-	free(tmp);
-	tmp = NULL;
+	else
+		(*node)->data = ft_strdup((*node)->key);
 	return (1);
 }
 
@@ -75,8 +77,6 @@ static void	add_value(t_env *env, t_env *node)
 			value = ft_strjoin(current->value, node->value);
 			free(current->value);
 			current->value = ft_strdup(value);
-			if (!current->value)
-				return ;
 			free(value);
 			value = NULL;
 			free(current->data);

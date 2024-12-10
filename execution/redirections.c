@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:44:37 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/03 16:44:52 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 03:06:18 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	multiple_in_redirections(t_minishell *mini, t_parser *node)
 				if (!open_in_files(mini, node->left))
 					return (failed_exit_s(node, &mini->exp->exit_s));
 			}
+			if (!multiple_in_redirections(mini, node->left))
+				return (failed_exit_s(node, &mini->exp->exit_s));
 		}
-		if (!multiple_in_redirections(mini, node->left))
-			return (failed_exit_s(node, &mini->exp->exit_s));
 		first = 0;
 	}
 	return (1);

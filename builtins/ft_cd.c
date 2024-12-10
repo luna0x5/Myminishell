@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 13:00:47 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/09 04:50:16 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 01:16:57 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_cd(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	if (mini->args[1][0] == '-')
+	if (mini->args[1] && mini->args[1][0] == '-')
 		i = cd_pwd(mini);
 	else if (!ft_strcmp(mini->args[1], "..."))
 	{

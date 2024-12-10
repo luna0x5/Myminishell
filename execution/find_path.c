@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 12:39:22 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/01 01:41:08 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 00:41:22 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,33 @@ char	*get_path(char *cmd, t_minishell *mini)
 
 	if (!cmd || *cmd == '\0')
 		return (NULL);
-	if (!mini->exp->env)
-		path = mini->path;
-	else
-	{
-		path = ft_getenv("PATH", mini->exp);
-		if (!path)
-			return (NULL);
-	}
+	path = ft_getenv("PATH", mini->exp);
+	if (!path)
+		return (NULL);
 	dir = ft_split(path, ':');
 	if (!dir)
 		return (free(cmd), NULL);
 	path = NULL;
 	return (find_path(dir, &path, cmd));
 }
+// char	*get_path(char *cmd, t_minishell *mini)
+// {
+// 	char	*path;
+// 	char	**dir;
+
+// 	if (!cmd || *cmd == '\0')
+// 		return (NULL);
+// 	if (!mini->exp->env)
+// 		path = mini->path;
+// 	else
+// 	{
+// 		path = ft_getenv("PATH", mini->exp);
+// 		if (!path)
+// 			return (NULL);
+// 	}
+// 	dir = ft_split(path, ':');
+// 	if (!dir)
+// 		return (free(cmd), NULL);
+// 	path = NULL;
+// 	return (find_path(dir, &path, cmd));
+// }

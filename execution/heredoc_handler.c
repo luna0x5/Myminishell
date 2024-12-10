@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 03:45:17 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/09 04:51:14 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/10 05:24:57 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,14 @@ static int	write_to_pipe(int pipefd[2], char *line, t_exp *exp, int i)
 		return (0);
 	node->id->id_type = ARG;
 	node->id->ident = ft_strdup(line);
-	if (!node->id->id_type)
-		return (0);
 	node->left = NULL;
 	node->right = NULL;
 	if (i != 2)
 		heredoc_expand(node, exp);
 	if (write(pipefd[1], node->id->ident, ft_strlen(node->id->ident)) < 0)
-	{
-		perror("SHELL: pipe: Error writing to pipe");
-		return (0);
-	}
+		return (perror("SHELL: pipe: Error writing to pipe"), 0);
 	if (write(pipefd[1], "\n", 1) < 0)
-	{
-		perror("SHELL: pipe: Error writing newline to pipe");
-		return (0);
-	}
+		return (perror("SHELL: pipe: Error writing newline to pipe"), 0);
 	free(node->id->ident);
 	free(node->id);
 	free(node);
@@ -81,6 +73,8 @@ int	read_input(t_parser *node, char **line)
 	if (ft_isquote(*(node->right->id->ident)))
 		i = 2;
 	unquoted = remove_quotes(node->right->id->ident);
+	if (!unquoted)
+		return (-1);
 	if (unquoted && !ft_strcmp(*line, unquoted))
 	{
 		free(*line);

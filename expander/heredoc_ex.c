@@ -6,37 +6,72 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 01:49:58 by hmoukit           #+#    #+#             */
-/*   Updated: 2024/12/09 04:46:56 by hmoukit          ###   ########.fr       */
+/*   Updated: 2024/12/09 22:08:29 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expander.h"
 
-char	*remove_quotes(char	*delim)
+static int	unquoted_string(char **line, int *i, char **result)
 {
+	// error , need free result
+	int		check;
+	int		start;
 	char	*unquoted;
+	check = ft_isquote((*line)[*i]);
+	if (check)
+		(*i)++;
+	start = *i;
+	if (check == 1)
+	{
+		while ((*line)[*i] && (*line)[*i] != '\'')
+			(*i)++;
+		if ((*line)[*i] != '\'')
+			return (write(2, "SHELL: SYNTAX ERROR: closing quote\n", 35), 0);
+		unquoted = ft_substr(*line, start, *i - start);
+		*result = ft_strjoin(*result, unquoted);
+	}
+	else if (check == 2)
+	{
+		while ((*line)[*i] && (*line)[*i] != '"')
+			(*i)++;
+		if ((*line)[*i] != '"')
+			return (write(2, "SHELL: SYNTAX ERROR: closing quote\n", 35), 0);
+		unquoted = ft_substr(*line, start, *i - start);
+		*result = ft_strjoin(*result, unquoted);
+	}
+	else
+	{
+		while ((*line)[*i] && !ft_isquote((*line)[*i]))
+			(*i)++;
+		unquoted = ft_substr(*line, start, *i - start);
+		*result = ft_strjoin(*result, unquoted);
+	}
+	return (1);
+}
+
+char	*remove_quotes(char *delim)
+{
+	char	*result;
 	int		i;
 	int		quote_type;
 
-	i = 1;
 	quote_type = ft_isquote(*delim);
 	if (quote_type == 0)
 	{
-		unquoted = ft_strdup(delim);
-		return (unquoted);
+		result = ft_strdup(delim);
+		return (result);
 	}
+	result = ft_strdup("");
+	i = 0;
 	while (delim[i])
 	{
-		if (quote_type == 1 && delim[i] == '\'')
-			break ;
-		if (quote_type == 2 && delim[i] == '"')
-			break ;
-		i++;
+		if (!unquoted_string(&delim, &i, &result))
+			return (NULL);
+		if (delim[i])
+			i++;
 	}
-	unquoted = ft_substr(delim, 1, i - 1);
-	if (!unquoted)
-		return (NULL);
-	return (unquoted);
+	return (result);
 }
 
 char	*get_expanded(t_parser *node, int *i, t_exp *exp)
